@@ -1,0 +1,9 @@
+src/app/(auth)/kyc/page.tsx(14,11): error TS2339: Property 'setKycLevel' does not exist on type '{ user: User | null; token: string | null; isAuthenticated: boolean; logout: () => void; setUser: (user: User | null) => void; setToken: (token: string | null) => void; updateKycLevel: (level: 0 | ... 2 more ... | 3) => void; }'.
+src/app/(auth)/login/page.tsx(7,25): error TS2307: Cannot find module 'react-form' or its corresponding type declarations.
+src/app/(auth)/login/page.tsx(22,11): error TS2339: Property 'login' does not exist on type '{ user: User | null; token: string | null; isAuthenticated: boolean; logout: () => void; setUser: (user: User | null) => void; setToken: (token: string | null) => void; updateKycLevel: (level: 0 | ... 2 more ... | 3) => void; }'.
+src/app/(auth)/signup/page.tsx(15,11): error TS2339: Property 'login' does not exist on type '{ user: User | null; token: string | null; isAuthenticated: boolean; logout: () => void; setUser: (user: User | null) => void; setToken: (token: string | null) => void; updateKycLevel: (level: 0 | ... 2 more ... | 3) => void; }'.
+src/app/(landing)/page.tsx(119,25): error TS2304: Cannot find name 'Users'.
+src/app/dashboard/layout.tsx(15,28): error TS2339: Property 'isHydrated' does not exist on type '{ user: User | null; token: string | null; isAuthenticated: boolean; logout: () => void; setUser: (user: User | null) => void; setToken: (token: string | null) => void; updateKycLevel: (level: 0 | ... 2 more ... | 3) => void; }'.
+src/components/charts/portfolio-chart.tsx(114,35): error TS2345: Argument of type 'string | number | undefined' is not assignable to parameter of type 'string | Date'.
+  Type 'undefined' is not assignable to type 'string | Date'.
+src/components/ui/button.tsx(2,22): error TS2307: Cannot find module '@radix-ui/react-slot' or its corresponding type declarations.

@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-gold: #c9a84c;
+    --color-gold-muted: #8a6e2f;
+    --color-surface: #0f0f14;
+    --color-surface-2: #16161e;
+    --color-surface-3: #1c1c28;
+    --color-border: #2a2a3a;
+    --color-text: #f0f0f5;
+    --color-text-muted: #6b6b80;
+    --color-green: #00e676;
+    --color-red: #ff5252;
+    --color-blue: #448aff;
+
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-surface-2);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-gold-muted);
+    border-radius: var(--radius-full);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gold);
+  }
+
+  /* Selection */
+  ::selection {
+    background: rgba(201, 168, 76, 0.3);
+    color: var(--color-text);
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    background: rgba(26, 26, 46, 0.4);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .glass-panel-heavy {
+    background: rgba(26, 26, 46, 0.7);
+    backdrop-filter: blur(32px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* Focus Rings */
+*:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}

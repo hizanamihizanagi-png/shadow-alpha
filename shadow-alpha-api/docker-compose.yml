@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: sa-postgres
+    environment:
+      POSTGRES_USER: shadow_alpha
+      POSTGRES_PASSWORD: shadow_alpha_dev
+      POSTGRES_DB: shadow_alpha
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shadow_alpha"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: sa-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sa-api
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://shadow_alpha:shadow_alpha_dev@postgres:5432/shadow_alpha
+      REDIS_URL: redis://redis:6379/0
+      JWT_SECRET: dev-secret-change-in-production
+      JWT_ALGORITHM: HS256
+      JWT_ACCESS_EXPIRY_MINUTES: 30
+      JWT_REFRESH_EXPIRY_DAYS: 7
+      CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000"]'
+      LOG_LEVEL: DEBUG
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./app:/code/app
+    restart: unless-stopped
+
+volumes:
+  pgdata:

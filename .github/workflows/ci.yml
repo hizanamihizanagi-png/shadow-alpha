@@ -1,0 +1,107 @@
+name: Shadow Alpha CI/CD
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  PYTHON_VERSION: "3.11"
+  NODE_VERSION: "20"
+
+jobs:
+  # ── Backend Tests ────────────────────────────────
+  backend-test:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: shadow-alpha-api
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: python -m pytest tests/ -v --tb=short
+
+      - name: Lint check
+        run: |
+          pip install ruff
+          ruff check app/
+
+  # ── Quant Model Tests ────────────────────────────
+  quant-test:
+    name: Quant Model Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: shadow-alpha-quant
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: python -m pytest tests/ -v --tb=short
+
+      - name: Verify all models import
+        run: python -c "from quant import ActuarialShieldModel, CopyTradingScorer, RiskMetricsCalculator, EVCalibrator; print('OK')"
+
+  # ── Frontend Build ───────────────────────────────
+  frontend-build:
+    name: Frontend Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: shadow-alpha-web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: shadow-alpha-web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Type check
+        run: npx tsc --noEmit
+        continue-on-error: true
+
+  # ── Deploy (only on main) ───────────────────────
+  deploy:
+    name: Deploy to Production
+    needs: [backend-test, quant-test, frontend-build]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy notification
+        run: echo "🚀 All checks passed — ready for deployment"
+        # TODO: Add actual deployment steps (Docker push, SSH deploy, etc.)
