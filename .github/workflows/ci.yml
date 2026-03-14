@@ -11,7 +11,7 @@ env:
   NODE_VERSION: "20"
 
 jobs:
-  # ── Backend Tests ────────────────────────────────
+  # ── Backend Tests ─────────────────────────────────────────────────────────
   backend-test:
     name: Backend Tests
     runs-on: ubuntu-latest
@@ -19,27 +19,41 @@ jobs:
       run:
         working-directory: shadow-alpha-api
 
+    env:
+      # Minimal env vars required for tests (SQLite in-memory)
+      SECRET_KEY: "ci-test-secret-key-do-not-use-in-production-32chars"
+      ALGORITHM: "HS256"
+      ACCESS_TOKEN_EXPIRE_MINUTES: "30"
+      DATABASE_URL: "sqlite+aiosqlite:///:memory:"
+      ENVIRONMENT: "testing"
+      REDIS_URL: ""
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: "pip"
+          cache-dependency-path: shadow-alpha-api/requirements.txt
 
-      - name: Install dependencies
+      # asyncpg needs libpq to compile on Linux
+      - name: Install system dependencies
+        run: sudo apt-get update -q && sudo apt-get install -y -q libpq-dev
+
+      - name: Install Python dependencies
         run: pip install -r requirements.txt
 
       - name: Run tests
         run: python -m pytest tests/ -v --tb=short
 
-      - name: Lint check
+      - name: Lint (ruff)
         run: |
           pip install ruff
-          ruff check app/
+          ruff check app/ --select E,F,W --ignore E501
 
-  # ── Quant Model Tests ────────────────────────────
+  # ── Quant Model Tests ─────────────────────────────────────────────────────
   quant-test:
     name: Quant Model Tests
     runs-on: ubuntu-latest
@@ -50,10 +64,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+          cache-dependency-path: shadow-alpha-quant/requirements.txt
 
       - name: Install dependencies
         run: pip install -r requirements.txt
@@ -62,9 +78,13 @@ jobs:
         run: python -m pytest tests/ -v --tb=short
 
       - name: Verify all models import
-        run: python -c "from quant import ActuarialShieldModel, CopyTradingScorer, RiskMetricsCalculator, EVCalibrator; print('OK')"
+        run: |
+          python -c "
+          from quant import ActuarialShieldModel, CopyTradingScorer, RiskMetricsCalculator, EVCalibrator
+          print('All models import OK ✅')
+          "
 
-  # ── Frontend Build ───────────────────────────────
+  # ── Frontend Build ────────────────────────────────────────────────────────
   frontend-build:
     name: Frontend Build
     runs-on: ubuntu-latest
@@ -72,10 +92,16 @@ jobs:
       run:
         working-directory: shadow-alpha-web
 
+    env:
+      # Required at build time for Next.js static analysis
+      NEXT_PUBLIC_API_URL: "http://localhost:8000"
+      NEXT_PUBLIC_APP_NAME: "Shadow Alpha"
+      NODE_ENV: "production"
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Set up Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
@@ -92,7 +118,7 @@ jobs:
         run: npx tsc --noEmit
         continue-on-error: true
 
-  # ── Deploy (only on main) ───────────────────────
+  # ── Deploy (only on main push, after all checks pass) ────────────────────
   deploy:
     name: Deploy to Production
     needs: [backend-test, quant-test, frontend-build]
@@ -103,5 +129,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Deploy notification
-        run: echo "🚀 All checks passed — ready for deployment"
-        # TODO: Add actual deployment steps (Docker push, SSH deploy, etc.)
+        run: echo "🚀 All checks passed — ready for deployment!"
+        # TODO: Add deployment steps (Docker push to registry, SSH to server, etc.)
+        # Examples:
+        #   - docker build + push to GitHub Container Registry
+        #   - Deploy to Railway/Render via their CLI
+        #   - SSH into VPS and run docker compose pull && docker compose up -d
