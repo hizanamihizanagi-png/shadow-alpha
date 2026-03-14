@@ -5,9 +5,13 @@ export function useMediaQuery(query: string) {
 
   useEffect(() => {
     const media = window.matchMedia(query);
+    
+    // Defer initial state update to next tick to avoid React warning about cascading renders
     if (media.matches !== matches) {
-      setMatches(media.matches);
+      const timeoutId = setTimeout(() => setMatches(media.matches), 0);
+      return () => clearTimeout(timeoutId);
     }
+    
     const listener = () => setMatches(media.matches);
     window.addEventListener("resize", listener);
     return () => window.removeEventListener("resize", listener);

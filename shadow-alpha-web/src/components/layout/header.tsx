@@ -44,7 +44,7 @@ export function Header() {
             {portfolio?.data
               ? formatCurrency(
                   portfolio.data.availableMargin,
-                  APP_CONFIG.currency as any,
+                  APP_CONFIG.currency as "USD" | "EUR" | "XAF",
                 )
               : "---"}
           </span>

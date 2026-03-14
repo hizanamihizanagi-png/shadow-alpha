@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {
   Area,
   AreaChart,
@@ -24,9 +24,14 @@ interface PortfolioChartProps {
 }
 
 export function PortfolioChart({ data, isLoading }: PortfolioChartProps) {
+  const [chartData, setChartData] = useState<PortfolioDataPoint[]>([]);
+
   // Generate mock data if none provided
-  const chartData = useMemo(() => {
-    if (data && data.length > 0) return data;
+  useEffect(() => {
+    if (data && data.length > 0) {
+      setChartData(data);
+      return;
+    }
 
     // Generate 30 days of realistic-looking portfolio data
     const mock = [];
@@ -37,8 +42,11 @@ export function PortfolioChart({ data, isLoading }: PortfolioChartProps) {
       const date = new Date(now);
       date.setDate(date.getDate() - i);
 
-      // Add some random walk volatility
-      const change = (Math.random() - 0.45) * 50000;
+      // Add some pseudo-random walk volatility
+      // Using a deterministic approach based on date to avoid Math.random() in render loop
+      const seed = date.getDate() * date.getMonth();
+      const pseudoRandom = (seed % 100) / 100;
+      const change = (pseudoRandom - 0.45) * 50000;
       startValue = Math.max(10000, startValue + change);
 
       mock.push({
@@ -46,7 +54,7 @@ export function PortfolioChart({ data, isLoading }: PortfolioChartProps) {
         value: startValue,
       });
     }
-    return mock;
+    setChartData(mock);
   }, [data]);
 
   // Determine trend for gradient colors
@@ -116,7 +124,7 @@ export function PortfolioChart({ data, isLoading }: PortfolioChartProps) {
                     <p className="font-mono text-base font-bold text-gold">
                       {formatCurrency(
                         payload[0].value as number,
-                        APP_CONFIG.currency as any,
+                        APP_CONFIG.currency as "XAF" | "EUR" | "USD",
                       )}
                     </p>
                   </div>

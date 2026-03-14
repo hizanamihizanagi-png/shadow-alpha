@@ -19,49 +19,50 @@ import { Badge } from "@/components/ui/badge";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { APP_CONFIG } from "@/lib/constants";
 
+const mockTransactions = [
+  {
+    id: "1",
+    type: "payout",
+    title: "Tontine Payout (Alpha Syndicate)",
+    amount: 500000,
+    date: new Date(),
+    status: "completed",
+  },
+  {
+    id: "2",
+    type: "trade_win",
+    title: "P2P Win: Real Madrid > Barca",
+    amount: 15000,
+    date: new Date(Date.now() - 86400000),
+    status: "completed",
+  },
+  {
+    id: "3",
+    type: "contribution",
+    title: "Tontine Contribution (Beta Series)",
+    amount: -50000,
+    date: new Date(Date.now() - 172800000),
+    status: "completed",
+  },
+  {
+    id: "4",
+    type: "trade_loss",
+    title: "P2P Loss: Under 2.5 Goals",
+    amount: -10000,
+    date: new Date(Date.now() - 259200000),
+    status: "completed",
+  },
+  {
+    id: "5",
+    type: "deposit",
+    title: "Fiat Deposit (Mobile Money)",
+    amount: 100000,
+    date: new Date(Date.now() - 432000000),
+    status: "completed",
+  },
+];
+
 export default function HistoryPage() {
-  const transactions = [
-    {
-      id: "1",
-      type: "payout",
-      title: "Tontine Payout (Alpha Syndicate)",
-      amount: 500000,
-      date: new Date(),
-      status: "completed",
-    },
-    {
-      id: "2",
-      type: "trade_win",
-      title: "P2P Win: Real Madrid > Barca",
-      amount: 15000,
-      date: new Date(Date.now() - 86400000),
-      status: "completed",
-    },
-    {
-      id: "3",
-      type: "contribution",
-      title: "Tontine Contribution (Beta Series)",
-      amount: -50000,
-      date: new Date(Date.now() - 172800000),
-      status: "completed",
-    },
-    {
-      id: "4",
-      type: "trade_loss",
-      title: "P2P Loss: Under 2.5 Goals",
-      amount: -10000,
-      date: new Date(Date.now() - 259200000),
-      status: "completed",
-    },
-    {
-      id: "5",
-      type: "deposit",
-      title: "Fiat Deposit (Mobile Money)",
-      amount: 100000,
-      date: new Date(Date.now() - 432000000),
-      status: "completed",
-    },
-  ];
 
   const getIcon = (type: string) => {
     switch (type) {
@@ -133,7 +134,7 @@ export default function HistoryPage() {
         </CardHeader>
         <CardContent className="p-0">
           <div className="divide-y divide-border/50">
-            {transactions.map((tx) => (
+            {mockTransactions.map((tx) => (
               <div
                 key={tx.id}
                 className="flex items-center justify-between p-4 sm:p-6 hover:bg-surface-2/30 transition-colors"
@@ -161,7 +162,7 @@ export default function HistoryPage() {
                     className={`font-mono font-bold text-sm sm:text-base ${tx.amount > 0 ? "text-success" : "text-foreground"}`}
                   >
                     {tx.amount > 0 ? "+" : ""}
-                    {formatCurrency(tx.amount, APP_CONFIG.currency as any)}
+                    {formatCurrency(tx.amount, APP_CONFIG.currency as "USD" | "EUR" | "XAF")}
                   </p>
                   <Badge
                     variant="outline"

@@ -142,7 +142,7 @@ export default function LoginPage() {
       </p>
 
       <p className="mt-8 text-center text-sm">
-        Don't have an account?{" "}
+        Don&apos;t have an account?{" "}
         <Link
           href={ROUTES.SIGNUP}
           className="font-medium text-gold hover:underline"

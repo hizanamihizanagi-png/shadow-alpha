@@ -73,7 +73,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <MotionButton
         className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref as any}
+        ref={ref}
         whileTap={{ scale: 0.98 }}
         disabled={isLoading || props.disabled}
         {...(props as HTMLMotionProps<"button">)}
