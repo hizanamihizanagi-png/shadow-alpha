@@ -1,0 +1,11 @@
+{
+  "git": {
+    "ignore": "shadow-alpha-api/"
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.py"
+    }
+  ]
+}
