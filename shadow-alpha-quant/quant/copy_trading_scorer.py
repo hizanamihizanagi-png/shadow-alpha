@@ -1,5 +1,5 @@
-"""
-Copy-Trading Scorer — evaluate traders for the copy-trading marketplace.
+﻿"""
+Copy-Trading Scorer - evaluate traders for the copy-trading marketplace.
 Uses Sharpe Ratio, Sortino Ratio, and consistency metrics.
 """
 
@@ -151,3 +151,4 @@ class CopyTradingScorer:
                 "total_positions": n,
             },
         }
+

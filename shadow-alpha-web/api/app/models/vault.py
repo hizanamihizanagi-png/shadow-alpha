@@ -1,5 +1,5 @@
-"""
-Shadow Vault model and schemas — yield fund deposits and performance tracking.
+﻿"""
+Shadow Vault model and schemas - yield fund deposits and performance tracking.
 """
 
 from __future__ import annotations
@@ -67,8 +67,12 @@ class VaultWithdraw(BaseModel):
 
 class VaultPerformanceOut(BaseModel):
     total_deposited: Decimal
+    current_value: Decimal
     gross_yield: Decimal
     performance_fee: Decimal
     net_yield: Decimal
     apy_estimate: float
+    net_apy: float
     strategy: Optional[str] = None
+    deposits: list[VaultDepositOut] = []
+

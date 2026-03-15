@@ -1,4 +1,4 @@
-"""
+﻿"""
 Modified Black-Scholes Pricing Engine for Sports Positions
 ===========================================================
 Treats a sports betting position as a **digital (binary) cash-or-nothing option**
@@ -12,7 +12,7 @@ Key adaptations from classical Black-Scholes:
     • Payoff      = max_payout if p > K at expiry (digital call)
 
 Reference:
-    Longmore & RobotWealth (2024) — treating goals as Poisson volatility driver
+    Longmore & RobotWealth (2024) - treating goals as Poisson volatility driver
     Black-Scholes (1973) adapted for binary options
 """
 
@@ -35,10 +35,10 @@ from .utils import clamp, get_default_sigma, odds_to_prob
 @dataclass
 class Greeks:
     """Option sensitivities for a sports position."""
-    delta: float    # ∂V/∂p — sensitivity to probability change
-    gamma: float    # ∂²V/∂p² — curvature / rate of delta change
-    theta: float    # ∂V/∂T — time decay per unit time
-    vega: float     # ∂V/∂σ — sensitivity to volatility
+    delta: float    # ∂V/∂p - sensitivity to probability change
+    gamma: float    # ∂²V/∂p² - curvature / rate of delta change
+    theta: float    # ∂V/∂T - time decay per unit time
+    vega: float     # ∂V/∂σ - sensitivity to volatility
 
     def __repr__(self) -> str:
         return (
@@ -90,7 +90,7 @@ def price_position(
     """Compute the fair value of a sports position using modified Black-Scholes.
 
     This models the position as a **digital cash-or-nothing call option**:
-        V = max_payout × e^{-rT} × Φ(d₂)
+        V = max_payout x e^{-rT} x Φ(d₂)
 
     Parameters
     ----------
@@ -105,7 +105,7 @@ def price_position(
     max_payout : float
         Maximum payout of the position in currency units.
     r : float, optional
-        Risk-free rate (default 0 — negligible for short-duration events).
+        Risk-free rate (default 0 - negligible for short-duration events).
 
     Returns
     -------
@@ -260,3 +260,4 @@ def validate_against_cashout(
         "edge": round(edge, 2),
         "edge_pct": round(edge_pct, 2),
     }
+

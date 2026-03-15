@@ -1,5 +1,5 @@
-"""
-Application configuration — loaded from environment variables.
+﻿"""
+Application configuration - loaded from environment variables.
 All secrets and connection strings come from here, never hardcoded.
 """
 
@@ -46,3 +46,4 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+

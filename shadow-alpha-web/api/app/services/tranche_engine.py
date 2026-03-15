@@ -1,5 +1,5 @@
-"""
-Tranche Engine — CDO-style yield tranching for positions.
+﻿"""
+Tranche Engine - CDO-style yield tranching for positions.
 """
 
 from __future__ import annotations
@@ -77,3 +77,4 @@ class TrancheEngineService:
                 "max_payout": round(max(equity_payouts), 2),
             },
         }
+

@@ -1,5 +1,5 @@
-"""
-Tests for auth endpoints — register, login, me.
+﻿"""
+Tests for auth endpoints - register, login, me.
 """
 
 import pytest
@@ -88,3 +88,4 @@ async def test_get_me_unauthorized(client: AsyncClient):
     """Should reject unauthenticated request."""
     response = await client.get("/auth/me")
     assert response.status_code in (401, 403)  # No auth header
+

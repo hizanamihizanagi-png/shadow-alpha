@@ -1,5 +1,5 @@
-"""
-EV Calibrator — Expected Value calculator with calibrated probabilities.
+﻿"""
+EV Calibrator - Expected Value calculator with calibrated probabilities.
 Uses logistic regression-style calibration for probability sharpening.
 """
 
@@ -77,7 +77,7 @@ class EVCalibrator:
     ) -> dict:
         """Calculate Expected Value for a bet.
         
-        EV = (true_prob × payout) - stake
+        EV = (true_prob x payout) - stake
         """
         payout = stake * decimal_odds
         ev = (true_probability * payout) - stake
@@ -143,3 +143,4 @@ class EVCalibrator:
             "kelly_fraction": round(kelly, 4),
             "kelly_stake": round(kelly * stake, 2),
         }
+

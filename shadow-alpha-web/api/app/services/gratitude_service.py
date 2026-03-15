@@ -1,5 +1,5 @@
-"""
-Gratitude Service — voluntary tips, supporters leaderboard, and badge management.
+﻿"""
+Gratitude Service - voluntary tips, supporters leaderboard, and badge management.
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from app.services.revenue_ledger import RevenueLedgerService
 
 
 class GratitudeService:
-    """Manages the Gratitude Tax — voluntary tip system."""
+    """Manages the Gratitude Tax - voluntary tip system."""
 
     @classmethod
     async def record_tip(
@@ -109,3 +109,4 @@ class GratitudeService:
         elif total >= 5_000:
             return "bronze"
         return "supporter"
+

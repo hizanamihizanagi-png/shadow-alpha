@@ -1,5 +1,5 @@
-"""
-Tontine Engine — group management, contributions, and rotation.
+﻿"""
+Tontine Engine - group management, contributions, and rotation.
 """
 
 from __future__ import annotations
@@ -152,3 +152,4 @@ class TontineEngineService:
             .order_by(TontineContribution.created_at.desc())
         )
         return list(result.scalars().all())
+

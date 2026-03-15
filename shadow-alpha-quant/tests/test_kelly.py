@@ -1,4 +1,4 @@
-"""
+﻿"""
 Tests for the Kelly Criterion Advisor.
 """
 
@@ -17,49 +17,49 @@ class TestKellyOptimal:
     """Single-bet Kelly tests."""
 
     def test_positive_edge(self):
-        """With p=0.6, odds=2.0 → f* = 0.2 (full Kelly)."""
+        """With p=0.6, odds=2.0 -> f* = 0.2 (full Kelly)."""
         r = kelly_optimal(2.0, 0.6, 10000.0, fraction=1.0)
         assert r.fraction == pytest.approx(0.2, abs=1e-6)
         assert r.stake == pytest.approx(2000.0, abs=0.01)
 
     def test_no_edge(self):
-        """With p=0.5, odds=2.0 → f* = 0 (fair bet, don't risk)."""
+        """With p=0.5, odds=2.0 -> f* = 0 (fair bet, don't risk)."""
         r = kelly_optimal(2.0, 0.5, 10000.0, fraction=1.0)
         assert r.fraction == pytest.approx(0.0, abs=1e-6)
         assert r.stake == pytest.approx(0.0, abs=0.01)
 
     def test_negative_edge(self):
-        """With p=0.3, odds=2.0 → f* < 0 (don't bet)."""
+        """With p=0.3, odds=2.0 -> f* < 0 (don't bet)."""
         r = kelly_optimal(2.0, 0.3, 10000.0, fraction=1.0)
         # fraction is clamped to 0 (no negative bets)
         assert r.fraction == 0.0
         assert r.stake == 0.0
 
     def test_fractional_kelly_quarter(self):
-        """Quarter Kelly: stake = 0.25 × f* × bankroll."""
+        """Quarter Kelly: stake = 0.25 x f* x bankroll."""
         r = kelly_optimal(2.0, 0.6, 10000.0, fraction=0.25)
         # f* = 0.2, quarter = 0.05
         assert r.fraction == pytest.approx(0.05, abs=1e-6)
         assert r.stake == pytest.approx(500.0, abs=0.01)
 
     def test_fractional_kelly_half(self):
-        """Half Kelly: stake = 0.5 × f* × bankroll."""
+        """Half Kelly: stake = 0.5 x f* x bankroll."""
         r = kelly_optimal(2.0, 0.6, 10000.0, fraction=0.5)
         assert r.fraction == pytest.approx(0.1, abs=1e-6)
         assert r.stake == pytest.approx(1000.0, abs=0.01)
 
     def test_expected_growth_positive_with_edge(self):
-        """Positive edge → positive expected growth rate."""
+        """Positive edge -> positive expected growth rate."""
         r = kelly_optimal(2.0, 0.6, 10000.0, fraction=1.0)
         assert r.expected_growth > 0
 
     def test_expected_growth_zero_without_edge(self):
-        """No edge → zero expected growth."""
+        """No edge -> zero expected growth."""
         r = kelly_optimal(2.0, 0.5, 10000.0, fraction=1.0)
         assert r.expected_growth == pytest.approx(0.0, abs=1e-10)
 
     def test_edge_calculation(self):
-        """Edge = p × b − (1 − p) where b = odds − 1."""
+        """Edge = p x b − (1 − p) where b = odds − 1."""
         r = kelly_optimal(2.5, 0.55, 10000.0)
         expected_edge = 0.55 * 1.5 - 0.45
         assert r.edge == pytest.approx(expected_edge, abs=1e-6)
@@ -77,7 +77,7 @@ class TestKellyOptimal:
         assert r.stake == 0.0
 
     def test_high_odds_high_prob(self):
-        """Very favorable bet → large Kelly fraction."""
+        """Very favorable bet -> large Kelly fraction."""
         r = kelly_optimal(5.0, 0.5, 10000.0, fraction=1.0)
         # f* = 0.5 - 0.5/4 = 0.375
         assert r.fraction == pytest.approx(0.375, abs=1e-6)
@@ -100,7 +100,7 @@ class TestMultiKelly:
         assert result.total_fraction <= 0.30 + 1e-6
 
     def test_no_edge_bets_excluded(self):
-        """All negative-edge bets → no allocation."""
+        """All negative-edge bets -> no allocation."""
         bets = [(2.0, 0.3), (1.5, 0.4)]
         result = multi_kelly(bets, 10000.0)
         assert result.bets_taken == 0
@@ -159,3 +159,4 @@ class TestAccumulatorKelly:
         # Combined prob = 0.7^10 ≈ 0.028, combined odds = 1.3^10 ≈ 13.79
         # This might still have edge depending on exact values
         assert isinstance(r, KellyResult)
+

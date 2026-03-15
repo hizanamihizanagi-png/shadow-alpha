@@ -23,14 +23,47 @@ export default function SignupPage() {
     setIsLoading(true);
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      setUser({ id: "1", email, displayName: name || "New User", tier: "ALPHA", kycLevel: 2 });
-      setToken("demo-token-xyz");
+      const { apiClient } = await import("@/lib/api-client");
+      
+      // 1. Register with backend
+      await apiClient.post("/auth/register", {
+        email,
+        password,
+        display_name: name || "New User",
+        phone: null,
+      });
+
+      // 2. Auto-login after registration
+      const tokenResponse = await apiClient.post<any>("/auth/login", { 
+        email, 
+        password 
+      });
+      
+      const accessToken = (tokenResponse as any).access_token || (tokenResponse as any).data?.access_token;
+      
+      if (!accessToken) throw new Error("Registration succeeded but login failed");
+      
+      // 3. Set token
+      setToken(accessToken);
+      await new Promise(resolve => setTimeout(resolve, 50));
+      
+      // 4. Fetch user profile
+      const meResponse = await apiClient.get<any>("/auth/me");
+      const user = (meResponse as any).data || meResponse;
+      
+      setUser({ 
+        id: user.id || "1", 
+        email: user.email, 
+        displayName: user.display_name || user.email.split("@")[0], 
+        tier: user.tier || "ALPHA", 
+        kycLevel: user.kyc_level || 0 
+      });
+
       // Route to KYC on successful signup
       router.push(ROUTES.KYC);
     } catch (error) {
-      console.error(error);
+      console.error("Signup error:", error);
+      alert("Registration failed. Email might already be in use.");
     } finally {
       setIsLoading(false);
     }

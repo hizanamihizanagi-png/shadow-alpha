@@ -1,12 +1,12 @@
-"""
+﻿"""
 Kelly Criterion Advisor
 ========================
 Optimal bankroll management for sports positions.
 
 Implements:
-    1. Full Kelly — maximizes long-run log-growth of capital
-    2. Fractional Kelly (¼, ½, etc.) — reduced variance
-    3. Multi-bet Kelly — optimal simultaneous allocation across N independent bets
+    1. Full Kelly - maximizes long-run log-growth of capital
+    2. Fractional Kelly (¼, ½, etc.) - reduced variance
+    3. Multi-bet Kelly - optimal simultaneous allocation across N independent bets
 
 References:
     Kelly, J.L. (1956). "A new interpretation of information rate."
@@ -35,7 +35,7 @@ class KellyResult:
     fraction: float         # Optimal fraction of bankroll (f*)
     stake: float            # Absolute stake amount
     expected_growth: float  # Expected log-growth rate per bet
-    edge: float             # p × b − (1 − p), the expected return per unit
+    edge: float             # p x b − (1 − p), the expected return per unit
     odds: float             # Input decimal odds
     true_prob: float        # Input true probability
 
@@ -77,7 +77,7 @@ def kelly_optimal(
         b = net payout per unit staked (decimal_odds − 1)
         f* = fraction of bankroll to wager
 
-    The actual stake = fraction × f* × bankroll  (fractional Kelly).
+    The actual stake = fraction x f* x bankroll  (fractional Kelly).
 
     Parameters
     ----------
@@ -116,7 +116,7 @@ def kelly_optimal(
     b = odds - 1.0  # net payout per unit staked
     q = 1.0 - true_prob
 
-    # Kelly fraction (can be negative → don't bet)
+    # Kelly fraction (can be negative -> don't bet)
     f_star = true_prob - q / b
 
     # Edge = expected return per unit staked
@@ -253,7 +253,7 @@ def accumulator_kelly(
     bankroll: float,
     fraction: float = 0.25,
 ) -> KellyResult:
-    """Kelly for an accumulator (parlay) — all legs must win.
+    """Kelly for an accumulator (parlay) - all legs must win.
 
     The accumulator is treated as a single bet with combined odds and
     combined probability.
@@ -291,3 +291,4 @@ def accumulator_kelly(
     combined_odds = round(combined_odds, 4)
 
     return kelly_optimal(combined_odds, combined_prob, bankroll, fraction)
+

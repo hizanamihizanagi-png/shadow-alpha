@@ -1,5 +1,5 @@
-"""
-Position Loans Router — Lombard lending against position collateral.
+﻿"""
+Position Loans Router - Lombard lending against position collateral.
 Uses PositionLoanService for Black-Scholes collateral valuation + revenue logging.
 """
 
@@ -92,3 +92,4 @@ async def get_my_position_loans(
     """Get all your position-collateralized loans."""
     loans = await PositionLoanService.get_user_loans(db, current_user.id)
     return [PositionLoanOut.model_validate(lo) for lo in loans]
+

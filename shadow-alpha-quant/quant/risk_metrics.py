@@ -1,5 +1,5 @@
-"""
-VaR / CVaR Calculator — risk metrics for portfolio and position level.
+﻿"""
+VaR / CVaR Calculator - risk metrics for portfolio and position level.
 Implements Historical, Parametric Gaussian, and Monte Carlo VaR.
 """
 
@@ -14,9 +14,9 @@ class RiskMetricsCalculator:
     """Value at Risk (VaR) and Conditional VaR (CVaR / Expected Shortfall).
     
     Three methodologies:
-    1. Historical VaR — from observed PnL distribution
-    2. Parametric VaR — Gaussian assumption
-    3. Monte Carlo VaR — simulated scenarios
+    1. Historical VaR - from observed PnL distribution
+    2. Parametric VaR - Gaussian assumption
+    3. Monte Carlo VaR - simulated scenarios
     """
 
     @classmethod
@@ -25,7 +25,7 @@ class RiskMetricsCalculator:
         pnl_series: List[float],
         confidence: float = 0.95,
     ) -> dict:
-        """Historical VaR — percentile-based from actual PnL data.
+        """Historical VaR - percentile-based from actual PnL data.
         
         VaR at 95% means: "We are 95% confident that the loss will not
         exceed this amount in a single period."
@@ -61,9 +61,9 @@ class RiskMetricsCalculator:
         portfolio_value: float,
         confidence: float = 0.95,
     ) -> dict:
-        """Parametric VaR — assumes Gaussian returns.
+        """Parametric VaR - assumes Gaussian returns.
         
-        VaR = -(μ - z_α × σ) × Portfolio Value
+        VaR = -(μ - z_α x σ) x Portfolio Value
         """
         # Z-scores for common confidence levels
         z_scores = {0.90: 1.282, 0.95: 1.645, 0.99: 2.326}
@@ -72,7 +72,7 @@ class RiskMetricsCalculator:
         var = -(mean_return - z * std_return) * portfolio_value
         var = max(var, 0.0)
 
-        # CVaR for Gaussian: μ - σ × φ(z_α) / (1-α)
+        # CVaR for Gaussian: μ - σ x φ(z_α) / (1-α)
         # φ(z) = standard normal PDF
         phi_z = math.exp(-0.5 * z ** 2) / math.sqrt(2 * math.pi)
         cvar_return = mean_return - std_return * phi_z / (1 - confidence)
@@ -97,7 +97,7 @@ class RiskMetricsCalculator:
         n_simulations: int = 10000,
         seed: Optional[int] = None,
     ) -> dict:
-        """Monte Carlo VaR — simulated returns.
+        """Monte Carlo VaR - simulated returns.
         
         Generates n random scenarios from the return distribution
         and computes VaR/CVaR from simulated outcomes.
@@ -170,3 +170,4 @@ class RiskMetricsCalculator:
                 "best_day": round(max(pnl_series), 2),
             },
         }
+

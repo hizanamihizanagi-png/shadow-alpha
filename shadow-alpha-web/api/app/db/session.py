@@ -1,4 +1,4 @@
-"""
+﻿"""
 Async database session factory and dependency.
 
 Supports both PostgreSQL (production) and SQLite (development).
@@ -60,10 +60,11 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
 
 # ── Table creation helper (for development) ──────────────────────────────
 async def create_all_tables():
-    """Create all tables — used for SQLite dev and testing."""
+    """Create all tables - used for SQLite dev and testing."""
     # Import all models to register them with Base.metadata
     import app.models  # noqa: F401
     from app.db.base import Base
 
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+

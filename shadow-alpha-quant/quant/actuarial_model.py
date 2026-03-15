@@ -1,5 +1,5 @@
-"""
-Actuarial Shield Pricing — advanced insurance premium model.
+﻿"""
+Actuarial Shield Pricing - advanced insurance premium model.
 Uses modified Black-Scholes put pricing with sport-specific adjustments.
 """
 
@@ -154,3 +154,4 @@ class ActuarialShieldModel:
             "profitable": combined_ratio < 1.0,
             "underwriting_profit_pct": round((1.0 - combined_ratio) * 100, 2),
         }
+

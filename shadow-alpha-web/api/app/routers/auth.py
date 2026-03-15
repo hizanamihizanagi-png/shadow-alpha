@@ -1,5 +1,5 @@
-"""
-Auth Router — registration, login, OTP, token refresh, profile.
+﻿"""
+Auth Router - registration, login, OTP, token refresh, profile.
 """
 
 from __future__ import annotations
@@ -83,8 +83,8 @@ async def login(
 
 @router.post("/verify-otp")
 async def verify_otp() -> dict:
-    """Verify OTP code (stub — OTP provider integration pending)."""
-    return {"message": "OTP verification stub — integration with SMS provider pending"}
+    """Verify OTP code (stub - OTP provider integration pending)."""
+    return {"message": "OTP verification stub - integration with SMS provider pending"}
 
 
 @router.post("/refresh", response_model=TokenPair)
@@ -119,3 +119,4 @@ async def get_me(
 ) -> UserOut:
     """Get authenticated user profile."""
     return UserOut.model_validate(current_user)
+

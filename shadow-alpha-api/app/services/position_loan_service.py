@@ -1,5 +1,5 @@
-"""
-Position Loan Service — Lombard lending against live positions.
+﻿"""
+Position Loan Service - Lombard lending against live positions.
 """
 
 from __future__ import annotations
@@ -191,3 +191,4 @@ class PositionLoanService:
         if not position:
             raise NotFoundError("Position", str(position_id))
         return position
+

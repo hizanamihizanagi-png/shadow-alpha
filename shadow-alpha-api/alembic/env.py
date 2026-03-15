@@ -1,9 +1,14 @@
 """
-Alembic env.py — async migration support.
+Alembic env.py - async migration support.
 """
 
 import asyncio
+import os
+import sys
 from logging.config import fileConfig
+
+# Add the parent directory to sys.path so 'app' can be resolved
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from alembic import context
 from sqlalchemy.ext.asyncio import create_async_engine
@@ -68,3 +73,4 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     run_migrations_online()
+

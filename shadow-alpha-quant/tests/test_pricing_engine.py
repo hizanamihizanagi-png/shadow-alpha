@@ -1,4 +1,4 @@
-"""
+﻿"""
 Tests for the Modified Black-Scholes Pricing Engine.
 """
 
@@ -16,7 +16,7 @@ class TestPricePosition:
     """Core pricing function tests."""
 
     def test_fair_value_at_the_money(self):
-        """When current_prob ≈ implied_prob, fair_value ≈ max_payout × 0.5."""
+        """When current_prob ≈ implied_prob, fair_value ≈ max_payout x 0.5."""
         fv = price_position(
             current_prob=0.50,
             implied_prob=0.50,
@@ -24,11 +24,11 @@ class TestPricePosition:
             time_remaining=0.75,
             max_payout=1000.0,
         )
-        # Should be close to 500 (ATM digital option ≈ 0.5 × payout)
+        # Should be close to 500 (ATM digital option ≈ 0.5 x payout)
         assert 400.0 < fv < 600.0, f"ATM fair value {fv} not near 500"
 
     def test_fair_value_deep_in_the_money(self):
-        """When current_prob >> implied_prob, fair_value → max_payout."""
+        """When current_prob >> implied_prob, fair_value -> max_payout."""
         fv = price_position(
             current_prob=0.90,
             implied_prob=0.30,
@@ -39,7 +39,7 @@ class TestPricePosition:
         assert fv > 900.0, f"Deep ITM fair value {fv} should be near max_payout"
 
     def test_fair_value_deep_out_of_the_money(self):
-        """When current_prob << implied_prob, fair_value → 0."""
+        """When current_prob << implied_prob, fair_value -> 0."""
         fv = price_position(
             current_prob=0.10,
             implied_prob=0.70,
@@ -56,17 +56,17 @@ class TestPricePosition:
         assert fv_early > fv_late, "OTM value should decrease with less time"
 
     def test_boundary_at_expiry_itm(self):
-        """At T → 0: if p > K, fair_value → max_payout."""
+        """At T -> 0: if p > K, fair_value -> max_payout."""
         fv = price_position(0.60, 0.50, 0.35, 1e-9, 1000.0)
         assert fv == pytest.approx(1000.0, abs=1.0)
 
     def test_boundary_at_expiry_otm(self):
-        """At T → 0: if p < K, fair_value → 0."""
+        """At T -> 0: if p < K, fair_value -> 0."""
         fv = price_position(0.40, 0.50, 0.35, 1e-9, 1000.0)
         assert fv == pytest.approx(0.0, abs=1.0)
 
     def test_value_increases_with_probability(self):
-        """Higher current_prob → higher fair value."""
+        """Higher current_prob -> higher fair value."""
         fv_low = price_position(0.40, 0.50, 0.35, 0.50, 1000.0)
         fv_high = price_position(0.70, 0.50, 0.35, 0.50, 1000.0)
         assert fv_high > fv_low
@@ -151,3 +151,4 @@ class TestValidateAgainstCashout:
         """When bookmaker cashout is generous, edge could be negative."""
         result = validate_against_cashout(0.40, 0.50, 0.35, 0.50, 1000.0, 500.0)
         assert result["edge"] < 0
+

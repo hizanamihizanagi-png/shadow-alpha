@@ -1,5 +1,5 @@
-"""
-Exchange Router — order book, order placement, cancellation, trades.
+﻿"""
+Exchange Router - order book, order placement, cancellation, trades.
 """
 
 from __future__ import annotations
@@ -132,7 +132,7 @@ async def execute_instant_cashout(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> dict:
-    """Execute instant cashout — sell position to the platform at quoted price."""
+    """Execute instant cashout - sell position to the platform at quoted price."""
     from decimal import Decimal
     from app.models.position import Position, PositionStatus
     from app.middleware.error_handler import NotFoundError, ValidationError
@@ -191,3 +191,4 @@ async def execute_instant_cashout(
         "cashout_id": str(cashout.id),
         **quote,
     }
+

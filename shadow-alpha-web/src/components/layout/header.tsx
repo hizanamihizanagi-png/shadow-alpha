@@ -31,7 +31,7 @@ export function Header() {
             SA
           </div>
           <span className="font-display font-bold text-lg hidden sm:inline-block">
-            ShadowAlpha
+            Shadow Alpha
           </span>
         </div>
       </div>

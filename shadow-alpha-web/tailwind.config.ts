@@ -19,9 +19,9 @@ const config = {
         },
         extend: {
             fontFamily: {
-                display: ["var(--font-syne)"],
-                body: ["var(--font-dm-sans)"],
-                mono: ["var(--font-jetbrains-mono)"],
+                display: ["Syne", "sans-serif"],
+                body: ["DM Sans", "sans-serif"],
+                mono: ["JetBrains Mono", "monospace"],
             },
             colors: {
                 border: "var(--color-border)",

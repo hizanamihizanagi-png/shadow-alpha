@@ -1,5 +1,5 @@
-"""
-Admin Router — internal dashboard endpoints for wealth engine monitoring.
+﻿"""
+Admin Router - internal dashboard endpoints for wealth engine monitoring.
 Uses RevenueLedgerService for accurate, real-time revenue tracking.
 """
 
@@ -31,7 +31,7 @@ async def admin_dashboard(
     db: AsyncSession = Depends(get_db),
     admin: User = Depends(get_admin_user),
 ) -> dict:
-    """Full admin dashboard — KPIs at a glance."""
+    """Full admin dashboard - KPIs at a glance."""
     # Total users
     total_users = await db.scalar(select(func.count(User.id))) or 0
 
@@ -95,7 +95,7 @@ async def prop_fund_status(
         "total_capital": "0.00",
         "active_positions": 0,
         "pnl": "0.00",
-        "message": "Prop fund trading is stubbed — no live trades",
+        "message": "Prop fund trading is stubbed - no live trades",
     }
 
 
@@ -176,3 +176,4 @@ async def recent_revenue(
             for e in events
         ],
     }
+

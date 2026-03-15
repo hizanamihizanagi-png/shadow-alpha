@@ -1,0 +1,9 @@
+{
+  "source_directories": [
+    "shadow-alpha-api",
+    "shadow-alpha-quant"
+  ],
+  "search_path": [
+    "shadow-alpha-api/.venv/Lib/site-packages"
+  ]
+}

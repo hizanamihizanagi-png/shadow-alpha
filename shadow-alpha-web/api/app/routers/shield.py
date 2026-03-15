@@ -1,18 +1,26 @@
-"""
-Shield Router — insurance activation and claims.
+﻿"""
+Shield Router - insurance activation and claims.
 """
 
 from __future__ import annotations
 
 import uuid
 from decimal import Decimal
+from typing import List
 
 from fastapi import APIRouter, Depends
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.session import get_db
 from app.middleware.auth import get_current_user
-from app.models.shield import ShieldActivate, ShieldClaimOut, ShieldContractOut, ShieldQuoteOut
+from app.models.shield import (
+    ShieldActivate,
+    ShieldClaimOut,
+    ShieldContract,
+    ShieldContractOut,
+    ShieldQuoteOut,
+)
 from app.models.user import User
 from app.services.shield_engine import ShieldEngineService
 from app.services.pricing_engine import PricingEngineService
@@ -75,3 +83,18 @@ async def get_quote(
         estimated_payout=pricing["estimated_payout"],
         loss_probability=loss_prob,
     )
+
+
+@router.get("/my", response_model=List[ShieldContractOut])
+async def get_my_contracts(
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> List[ShieldContractOut]:
+    """List shield contracts for the current user."""
+    result = await db.execute(
+        select(ShieldContract)
+        .where(ShieldContract.user_id == current_user.id)
+        .order_by(ShieldContract.created_at.desc())
+    )
+    return [ShieldContractOut.model_validate(c) for c in result.scalars().all()]
+

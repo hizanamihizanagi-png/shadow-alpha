@@ -1,4 +1,4 @@
-# 🔥 STAKEX — Africa's First Bet Position Exchange & Liquidity Engine
+﻿# 🔥 Shadow Alpha — Africa's First Bet Position Exchange & Liquidity Engine
 
 > *"Turn every bet into a tradeable asset. Turn every tontine into a micro-fund. Turn every hustle into a hedge."*
 
@@ -92,25 +92,25 @@ Your brother was sitting on a **financial derivative** (a position whose value c
 
 ---
 
-## PART III · THE SOLUTION: STAKEX
+## PART III · THE SOLUTION: Shadow Alpha
 
-### What Is STAKEX?
+### What Is Shadow Alpha?
 
-**STAKEX is a Peer-to-Peer Bet Position Exchange & Micro-Fund Engine.**
+**Shadow Alpha is a Peer-to-Peer Bet Position Exchange & Micro-Fund Engine.**
 
 Think of it as: **Betfair Exchange × Robinhood × M-Pesa × Bloomberg Terminal** — designed for Africa, built for mobile, deployed via Telegram first.
 
 ### The Core Innovation: Bet Position Tokenization
 
-Every bet placed on 1xBet, Melbet, or any sportsbook becomes a **tradeable position** on STAKEX.
+Every bet placed on 1xBet, Melbet, or any sportsbook becomes a **tradeable position** on Shadow Alpha.
 
 ```
 ┌─────────────────────────────────────────────────┐
-│                STAKEX ENGINE                     │
+│                Shadow Alpha ENGINE                     │
 │                                                  │
 │  USER places bet on 1xBet → 5000 FCFA @ 10.0   │
 │                    ↓                             │
-│  STAKEX creates a "Position Token"               │
+│  Shadow Alpha creates a "Position Token"               │
 │  Initial Value: 5,000 FCFA                       │
 │  Current Value: Dynamically priced               │
 │                    ↓                             │
@@ -133,18 +133,18 @@ Every bet placed on 1xBet, Melbet, or any sportsbook becomes a **tradeable posit
 
 ### How It Solves Your Brother's Problem
 
-| Without STAKEX | With STAKEX |
+| Without Shadow Alpha | With Shadow Alpha |
 |---|---|
 | Bet 5,000 at odds 10.0 | Same bet, same odds |
 | Team scores → no way to lock profit | Team scores → position value auto-calculated at ~28-35K |
-| Offered 30K by a random person (no trust) | STAKEX marketplace: sell at 30K instantly, smart escrow |
+| Offered 30K by a random person (no trust) | Shadow Alpha marketplace: sell at 30K instantly, smart escrow |
 | Goes to sleep, team loses | Sets **stop-loss at 20K** + auto-sell. Goes to sleep worry-free |
 | **Loses 5,000 FCFA** | **Profits 15,000-25,000 FCFA** |
 
 ### Product Layers (Phased Rollout)
 
 ```
-PHASE 1 (Month 0-3): Telegram Bot — "STAKEX Bot" 🤖
+PHASE 1 (Month 0-3): Telegram Bot — "Shadow Alpha Bot" 🤖
 ├── Bet position tracker (input your bets manually)
 ├── Real-time position pricing engine
 ├── P2P position marketplace (buy/sell positions)
@@ -202,7 +202,7 @@ PHASE 4 (Month 12-24): Mobile App + Global 📱
 
 4. **Digital tontine apps:** They solve savings, not position management. No pricing engine. No exchange mechanics.
 
-### Why STAKEX Wins
+### Why Shadow Alpha Wins
 
 > **We are the ONLY platform that sits BETWEEN the bettor and the sportsbook, creating a secondary market for positions — without needing the sportsbook's permission.**
 
@@ -268,7 +268,7 @@ Revenue Model:
 
 **YES.** Here's the playbook. OmegaPro stole $650M because they understood something powerful:
 
-| What OmegaPro Did (SCAM) | What STAKEX Does (LEGITIMATE) |
+| What OmegaPro Did (SCAM) | What Shadow Alpha Does (LEGITIMATE) |
 |---|---|
 | Promised 300% returns | Shows **real** position values in real-time |
 | Projected logo on Burj Khalifa | Partners with African streamers/YouTubers |
@@ -281,7 +281,7 @@ Revenue Model:
 
 The Veblen Effect says: **people want what seems exclusive, expensive, and slightly dangerous.**
 
-STAKEX deploys this through:
+Shadow Alpha deploys this through:
 
 1. **Waitlist & Invite-Only Launch** — "Only 1,000 spots available in Cameroon. Get your invite code from a streamer." Creates scarcity. FOMO. Exclusivity.
 
@@ -289,11 +289,11 @@ STAKEX deploys this through:
 
 3. **The "Legal Edge" Narrative** — *"We don't run a sportsbook. We don't take bets. We just let you TRADE your positions. That's perfectly legal."* (And it IS — we are a P2P marketplace, not a gambling operator. The position is already placed on 1xBet.)
 
-4. **Streamer Promo Codes** — YouTubers and TikTokers show their STAKEX portfolio: *"I turned 10,000 FCFA into 150,000 FCFA this week by TRADING my bet positions."* This is REAL — not inflated — because position trading with risk management genuinely outperforms blind betting.
+4. **Streamer Promo Codes** — YouTubers and TikTokers show their Shadow Alpha portfolio: *"I turned 10,000 FCFA into 150,000 FCFA this week by TRADING my bet positions."* This is REAL — not inflated — because position trading with risk management genuinely outperforms blind betting.
 
 5. **Leaderboard Flexing** — Public rankings of top traders. Monthly payouts for the top 10. Status symbols (Gold tier, Diamond tier). The more you trade, the more status you earn. **Veblen Effect in action.**
 
-6. **High-Tier Pricing** — The STAKEX "Black Card" membership at $50/month gets you: AI position advisor, copy-trading, 0% fees, and a verified badge. **People will pay MORE because it's expensive.** That's the Veblen paradox.
+6. **High-Tier Pricing** — The Shadow Alpha "Black Card" membership at $50/month gets you: AI position advisor, copy-trading, 0% fees, and a verified badge. **People will pay MORE because it's expensive.** That's the Veblen paradox.
 
 ### Legal Analysis: The Regulatory Sweet Spot
 
@@ -302,9 +302,9 @@ STAKEX deploys this through:
 - Sportsbooks
 - Online gambling operators
 
-**STAKEX is NOT a sportsbook.** We don't accept bets. We don't set odds. We don't operate games.
+**Shadow Alpha is NOT a sportsbook.** We don't accept bets. We don't set odds. We don't operate games.
 
-**STAKEX is a Peer-to-Peer marketplace** where users trade positions they already own. This is closer to:
+**Shadow Alpha is a Peer-to-Peer marketplace** where users trade positions they already own. This is closer to:
 - A secondary market (like StubHub for tickets)
 - A financial instrument exchange
 - A social trading platform
@@ -319,7 +319,7 @@ STAKEX deploys this through:
 
 ### The Science Behind Position Pricing
 
-STAKEX uses a **Modified Black-Scholes Model** adapted for sports betting positions:
+Shadow Alpha uses a **Modified Black-Scholes Model** adapted for sports betting positions:
 
 ```
 Position Value = Max Payout × N(d₁) - Strike × e^(-rT) × N(d₂)
@@ -348,7 +348,7 @@ Where:
   p = Your estimated true probability of winning
   q = 1 - p
 
-STAKEX Enhancement: We use FRACTIONAL KELLY (¼ or ½) 
+Shadow Alpha Enhancement: We use FRACTIONAL KELLY (¼ or ½) 
 to reduce variance while preserving growth.
 ```
 
@@ -356,7 +356,7 @@ to reduce variance while preserving growth.
 - Odds: 10.0, so b = 9
 - If true probability is 15%: Kelly = (9 × 0.15 - 0.85) / 9 = 5.6% of bankroll
 - On a 50,000 FCFA bankroll: optimal bet = **2,778 FCFA** (not 5,000)
-- STAKEX would have warned: *"⚠️ Your bet size is 1.8× Kelly. Reduce to 2,800 FCFA for optimal growth."*
+- Shadow Alpha would have warned: *"⚠️ Your bet size is 1.8× Kelly. Reduce to 2,800 FCFA for optimal growth."*
 
 ### Additional Mathematical Tools
 
@@ -375,7 +375,7 @@ to reduce variance while preserving growth.
 
 ```mermaid
 graph TD
-    A[😎 Bettor places bet on 1xBet/Melbet] --> B[📱 Logs position in STAKEX Telegram Bot]
+    A[😎 Bettor places bet on 1xBet/Melbet] --> B[📱 Logs position in Shadow Alpha Telegram Bot]
     B --> C[🧮 Pricing Engine calculates live value]
     C --> D{User decides}
     D -->|HOLD| C
@@ -383,7 +383,7 @@ graph TD
     D -->|HEDGE| F[📊 Counter-position created]
     D -->|COLLATERAL| G[💰 Micro-loan issued against position]
     
-    E --> H[💵 2-5% Transaction Fee → STAKEX Revenue]
+    E --> H[💵 2-5% Transaction Fee → Shadow Alpha Revenue]
     F --> H
     G --> H
     
@@ -393,11 +393,11 @@ graph TD
     K --> L[👥 New users join via invite codes]
     L --> A
     
-    M[🏦 Tontine Groups] --> N[📱 STAKEX Tontine Manager]
+    M[🏦 Tontine Groups] --> N[📱 Shadow Alpha Tontine Manager]
     N --> O[Smart allocation + yield optimization]
     O --> H
     
-    P[🛍️ Buy & Sell Traders] --> Q[📱 STAKEX Working Capital]
+    P[🛍️ Buy & Sell Traders] --> Q[📱 Shadow Alpha Working Capital]
     Q --> R[Inventory financing via position collateral]
     R --> H
 ```
@@ -429,11 +429,11 @@ Revenue Streams:
 ```
 STREAMER PROMO CODE FLOW:
 │
-├── Streamer gets unique code: STAKEX-NDOMBOL
+├── Streamer gets unique code: Shadow Alpha-NDOMBOL
 ├── Shares code in YouTube video / TikTok / Telegram
 ├── New users sign up with code
 ├── For every transaction the referred user makes:
-│   ├── Streamer earns 15% of STAKEX's fee
+│   ├── Streamer earns 15% of Shadow Alpha's fee
 │   └── Lifetime attribution (no expiry)
 ├── Streamer dashboard shows:
 │   ├── Total referred users
@@ -441,7 +441,7 @@ STREAMER PROMO CODE FLOW:
 │   ├── Earnings this month
 │   └── Leaderboard ranking
 └── Top streamers get:
-    ├── "STAKEX Ambassador" badge
+    ├── "Shadow Alpha Ambassador" badge
     ├── Early access to features
     ├── Monthly bonus for top 10
     └── Invites to exclusive events
@@ -469,7 +469,7 @@ STREAMER PROMO CODE FLOW:
 
 1xBet and Melbet are under increasing regulatory pressure in Africa (Cameroon just centralized all online gaming payments through INTOUCH in January 2025). They need to show they support "responsible gambling." 
 
-**STAKEX becomes their responsible gambling partner** — they can point to us and say: *"See? Our users have access to risk management tools."* This opens B2B revenue. We become infrastructure.
+**Shadow Alpha becomes their responsible gambling partner** — they can point to us and say: *"See? Our users have access to risk management tools."* This opens B2B revenue. We become infrastructure.
 
 ---
 
@@ -496,7 +496,7 @@ STREAMER PROMO CODE FLOW:
 
 ## APPENDIX: THE EXCITING EXPERIENCE
 
-### What Makes STAKEX Addictive (Without Being a Scam)
+### What Makes Shadow Alpha Addictive (Without Being a Scam)
 
 | Element | Implementation |
 |---|---|
@@ -509,10 +509,11 @@ STREAMER PROMO CODE FLOW:
 | 🧮 **Education** | Weekly "Math of Money" series teaching Kelly, EV, risk management |
 | 🎬 **Content Loop** | Users share wins → streamers create content → new users join |
 
-> **The difference between STAKEX and a scam is MATH.** OmegaPro promised 300% returns with no mechanism. STAKEX shows you exactly how positions are priced, lets you audit the algorithm, and teaches you the mathematics of risk. The excitement comes from REAL knowledge and REAL skill, not false promises.
+> **The difference between Shadow Alpha and a scam is MATH.** OmegaPro promised 300% returns with no mechanism. Shadow Alpha shows you exactly how positions are priced, lets you audit the algorithm, and teaches you the mathematics of risk. The excitement comes from REAL knowledge and REAL skill, not false promises.
 
 ---
 
 *Built for Africa. Engineered with Wall Street mathematics. Deployed through Telegram. Powered by the people.*
 
-**STAKEX** — *The House Doesn't Want You To See This.* 🔥
+**Shadow Alpha** — *The House Doesn't Want You To See This.* 🔥
+

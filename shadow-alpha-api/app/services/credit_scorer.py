@@ -1,5 +1,5 @@
-"""
-Credit Scorer — compute credit scores from user activity.
+﻿"""
+Credit Scorer - compute credit scores from user activity.
 """
 
 from __future__ import annotations
@@ -53,7 +53,7 @@ class CreditScorerService:
             repay_ratio = repaid / max(repaid + defaulted, 1)
             score += int(repay_ratio * 200)
 
-        # Factor 4: Account age (max +100) — placeholder
+        # Factor 4: Account age (max +100) - placeholder
         score += 50  # Base age bonus
 
         score = min(score, cls.MAX_SCORE)
@@ -104,3 +104,4 @@ class CreditScorerService:
             "eligible": eligible,
             "reason": None if eligible else f"Max loan for tier {score_data['tier']} is {score_data['max_loan_amount']} FCFA",
         }
+

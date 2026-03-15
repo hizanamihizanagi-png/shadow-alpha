@@ -1,5 +1,5 @@
-"""
-Tontine models and schemas — groups, members, contributions.
+﻿"""
+Tontine models and schemas - groups, members, contributions.
 """
 
 from __future__ import annotations
@@ -118,3 +118,4 @@ class ContributionOut(BaseModel):
     created_at: datetime
 
     model_config = {"from_attributes": True}
+

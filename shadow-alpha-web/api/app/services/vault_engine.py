@@ -1,5 +1,5 @@
-"""
-Vault Engine — Shadow Vault deposit/withdraw and performance fee management.
+﻿"""
+Vault Engine - Shadow Vault deposit/withdraw and performance fee management.
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from app.services.yield_engine import YieldEngineService
 
 
 class VaultEngineService:
-    """Manages Shadow Vault — user deposits, yields, and performance fees."""
+    """Manages Shadow Vault - user deposits, yields, and performance fees."""
 
     @classmethod
     async def deposit(
@@ -80,12 +80,26 @@ class VaultEngineService:
 
         # Calculate projected yield
         yield_data = YieldEngineService.calculate_monthly_yield(total)
+        current_value = (total + yield_data["net_yield"]).quantize(
+            Decimal("0.01"), rounding=ROUND_HALF_EVEN
+        )
+
+        deposits_result = await db.execute(
+            select(VaultDeposit)
+            .where(VaultDeposit.user_id == user_id)
+            .order_by(VaultDeposit.created_at.desc())
+        )
+        deposits = list(deposits_result.scalars().all())
 
         return {
             "total_deposited": total,
+            "current_value": current_value,
             "gross_yield": yield_data["gross_yield"],
             "performance_fee": yield_data["performance_fee"],
             "net_yield": yield_data["net_yield"],
             "apy_estimate": yield_data["net_apy"],
+            "net_apy": yield_data["net_apy"],
             "strategy": "Diversified Arbitrage + T-Bills",
+            "deposits": deposits,
         }
+

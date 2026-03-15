@@ -1,5 +1,5 @@
-"""
-Database base — declarative base class, common mixins, and DB-agnostic UUID type.
+﻿"""
+Database base - declarative base class, common mixins, and DB-agnostic UUID type.
 
 Works with both PostgreSQL (production) and SQLite (development/testing).
 """
@@ -62,10 +62,11 @@ class TimestampMixin:
 
 
 class UUIDPrimaryKeyMixin:
-    """UUID v4 primary key mixin — works on both PostgreSQL and SQLite."""
+    """UUID v4 primary key mixin - works on both PostgreSQL and SQLite."""
 
     id: Mapped[uuid.UUID] = mapped_column(
         GUID(),
         primary_key=True,
         default=uuid.uuid4,
     )
+

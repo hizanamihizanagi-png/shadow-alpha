@@ -1,5 +1,5 @@
-"""
-Gratitude (tip) model and schemas — voluntary tips on wins.
+﻿"""
+Gratitude (tip) model and schemas - voluntary tips on wins.
 """
 
 from __future__ import annotations
@@ -50,3 +50,4 @@ class SupporterOut(BaseModel):
     total_tips: Decimal
     tip_count: int
     badge: Optional[str] = None
+

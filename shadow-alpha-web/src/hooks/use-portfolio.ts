@@ -1,56 +1,53 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api-client";
-import { Portfolio } from "@/types/portfolio";
+import { PortfolioSummary } from "@/types/portfolio";
 import { API_ENDPOINTS } from "@/lib/constants";
+
+const toNumber = (value: unknown) => {
+  if (typeof value === "number") return value;
+  if (typeof value === "string") return Number(value);
+  return 0;
+};
 
 export function usePortfolio() {
   return useQuery({
     queryKey: ["portfolio"],
     queryFn: async () => {
-      // For development, return mock data since API doesn't exist yet
-      if (process.env.NODE_ENV === "development") {
-        return {
-          data: {
-            totalValue: 1250000,
-            availableMargin: 250000,
-            usedMargin: 1000000,
-            unrealizedPnl: 150000,
-            dailyPnl: 45000,
-            dailyPnlPct: 3.75,
-            positions: [
-              {
-                id: "pos_1",
-                assetSymbol: "RMA-FCB",
-                assetName: "Real Madrid vs Barcelona",
-                direction: "LONG",
-                entryPrice: 100000,
-                currentPrice: 120000,
-                quantity: 1,
-                leverage: 1,
-                unrealizedPnl: 20000,
-                unrealizedPnlPct: 20,
-                status: "ACTIVE",
-                createdAt: new Date().toISOString(),
-              },
-              {
-                id: "pos_2",
-                assetSymbol: "CMR-NGA",
-                assetName: "Cameroon vs Nigeria",
-                direction: "SHORT",
-                entryPrice: 50000,
-                currentPrice: 40000,
-                quantity: 1,
-                leverage: 1,
-                unrealizedPnl: 10000,
-                unrealizedPnlPct: 20,
-                status: "ACTIVE",
-                createdAt: new Date().toISOString(),
-              },
-            ],
-          } as Portfolio,
-        };
-      }
-      return apiClient.get<Portfolio>(API_ENDPOINTS.PORTFOLIO.SUMMARY);
+      const res = await apiClient.get<Record<string, unknown>>(
+        API_ENDPOINTS.PORTFOLIO.SUMMARY,
+      );
+      const data = res.data || {};
+      const totalValue = toNumber(data.total_value ?? data.totalValue);
+      const totalInvested = toNumber(data.total_invested ?? data.totalInvested);
+      const unrealizedPnl = toNumber(data.unrealized_pnl ?? data.unrealizedPnl);
+      const positionCount = toNumber(data.position_count ?? data.positionCount);
+      const activeCount = toNumber(data.active_count ?? data.activeCount);
+      const wonCount = toNumber(data.won_count ?? data.wonCount);
+      const lostCount = toNumber(data.lost_count ?? data.lostCount);
+      const winRate = toNumber(data.win_rate ?? data.winRate);
+
+      const availableMargin = totalValue;
+      const usedMargin = totalInvested;
+      const dailyPnl = unrealizedPnl;
+      const dailyPnlPct =
+        totalInvested > 0 ? (unrealizedPnl / totalInvested) * 100 : 0;
+
+      const summary: PortfolioSummary = {
+        totalValue,
+        totalInvested,
+        unrealizedPnl,
+        positionCount,
+        activeCount,
+        wonCount,
+        lostCount,
+        winRate,
+        availableMargin,
+        usedMargin,
+        dailyPnl,
+        dailyPnlPct,
+      };
+
+      return { data: summary };
     },
     staleTime: 1000 * 60, // 1 minute
   });

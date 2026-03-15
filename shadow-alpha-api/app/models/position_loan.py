@@ -1,5 +1,5 @@
-"""
-Position Loan (Lombard) model and schemas — collateralized position loans.
+﻿"""
+Position Loan (Lombard) model and schemas - collateralized position loans.
 """
 
 from __future__ import annotations
@@ -65,3 +65,4 @@ class PositionLoanOut(BaseModel):
     repaid_at: Optional[datetime] = None
 
     model_config = {"from_attributes": True}
+

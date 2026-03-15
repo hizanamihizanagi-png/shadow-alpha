@@ -1,5 +1,5 @@
-"""
-Positions Router — create, get, list, and live pricing.
+﻿"""
+Positions Router - create, get, list, and live pricing.
 """
 
 from __future__ import annotations
@@ -118,3 +118,4 @@ async def get_position_value(
         time_remaining=time_remaining,
         greeks=greeks,
     )
+

@@ -1,5 +1,5 @@
-"""
-JWT authentication middleware — get_current_user dependency.
+﻿"""
+JWT authentication middleware - get_current_user dependency.
 """
 
 from __future__ import annotations
@@ -135,3 +135,4 @@ async def get_admin_user(
             },
         )
     return current_user
+

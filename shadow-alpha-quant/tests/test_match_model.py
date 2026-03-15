@@ -1,4 +1,4 @@
-"""
+﻿"""
 Tests for the Dixon-Coles Bivariate Poisson Match Model.
 """
 
@@ -95,7 +95,7 @@ class TestPredictMatch:
         assert pred.home_win_prob > pred.away_win_prob
 
     def test_time_remaining_narrows_distribution(self):
-        """Less time remaining → higher probability of current scoreline holding."""
+        """Less time remaining -> higher probability of current scoreline holding."""
         pred_full = predict_match("H", "A", 1.0, (1, 0), 1.5, 1.2)
         pred_late = predict_match("H", "A", 0.1, (1, 0), 1.5, 1.2)
         # With 10% time left and 1-0, P(1-0 final) should be higher
@@ -199,3 +199,4 @@ class TestDixonColesModel:
         pred = model.predict("Arsenal", "Chelsea", time_remaining=0.5, current_score=(1, 0))
         assert pred.current_score == (1, 0)
         assert pred.home_win_prob > 0.3  # leading team should have decent odds
+

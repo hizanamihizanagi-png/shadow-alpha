@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
 import {
   Shield,
   ShieldCheck,
@@ -15,54 +16,69 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { APP_CONFIG } from "@/lib/constants";
+import { formatCurrency } from "@/lib/utils";
+import { usePositions } from "@/hooks/use-positions";
+import {
+  useActivateShield,
+  useClaimShield,
+  useShieldContracts,
+  useShieldQuote,
+} from "@/hooks/use-shield";
+
+const toNumber = (value: unknown) => {
+  if (typeof value === "number") return value;
+  if (typeof value === "string") return Number(value);
+  return 0;
+};
 
 export default function ShieldPage() {
-  // Mock data — will be wired to API
-  const mockPositions = [
-    {
-      id: "1",
-      teams: "PSG vs Marseille",
-      stake: 25000,
-      odds: 2.1,
-      currentProb: 0.52,
-      shielded: false,
-      premiumEstimate: 3750,
-      coveragePct: 70,
-    },
-    {
-      id: "2",
-      teams: "Liverpool vs Arsenal",
-      stake: 50000,
-      odds: 1.85,
-      currentProb: 0.6,
-      shielded: true,
-      premiumPaid: 5200,
-      coveragePct: 80,
-      payout: 40000,
-    },
-    {
-      id: "3",
-      teams: "Real Madrid vs Barcelona",
-      stake: 100000,
-      odds: 2.5,
-      currentProb: 0.45,
-      shielded: false,
-      premiumEstimate: 18500,
-      coveragePct: 70,
-    },
-  ];
+  const { data: positionsData, isLoading, isError } = usePositions();
+  const { data: contractsData } = useShieldContracts();
+  const activateShield = useActivateShield();
+  const claimShield = useClaimShield();
 
-  const stats = {
-    activeShields: 1,
-    totalPremiumPaid: 5200,
-    totalProtected: 50000,
-    claimsPaid: 0,
-  };
+  const [quotePositionId, setQuotePositionId] = useState<string | null>(null);
+  const { data: quoteData, isFetching: isQuoteLoading } = useShieldQuote(
+    quotePositionId ?? "",
+    Boolean(quotePositionId),
+  );
+
+  const positions = positionsData?.data ?? [];
+  const contracts = (Array.isArray(contractsData?.data)
+    ? contractsData.data
+    : []) as Record<string, unknown>[];
+
+  const positionsById = new Map(positions.map((pos) => [pos.id, pos]));
+  const contractsByPositionId = new Map<string, Record<string, unknown>>();
+  contracts.forEach((contract) => {
+    const key = String(contract.position_id ?? contract.positionId ?? "");
+    if (key) contractsByPositionId.set(key, contract);
+  });
+
+  const activeShields = contracts.filter(
+    (contract) => String(contract.status ?? "") === "active",
+  );
+  const totalPremiumPaid = activeShields.reduce(
+    (sum, contract) => sum + toNumber(contract.premium_paid ?? contract.premiumPaid),
+    0,
+  );
+  const totalProtected = activeShields.reduce((sum, contract) => {
+    const positionId = String(contract.position_id ?? contract.positionId ?? "");
+    const position = positionsById.get(positionId);
+    const coveragePct = toNumber(
+      contract.coverage_pct ?? contract.coveragePct ?? 0,
+    );
+    if (!position) return sum;
+    return sum + (position.stake * coveragePct) / 100;
+  }, 0);
+
+  if (isError) {
+    return <div className="p-8 text-danger">Error loading shield data</div>;
+  }
 
   return (
     <div className="flex flex-col gap-8 pb-10">
@@ -88,7 +104,7 @@ export default function ShieldPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl lg:text-3xl font-bold font-mono text-white">
-              {stats.activeShields}
+              {activeShields.length}
             </div>
           </CardContent>
         </Card>
@@ -102,7 +118,7 @@ export default function ShieldPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold font-mono text-gold">
-              {stats.totalProtected.toLocaleString()} {APP_CONFIG.currency}
+              {formatCurrency(totalProtected, APP_CONFIG.currency as any)}
             </div>
           </CardContent>
         </Card>
@@ -116,7 +132,7 @@ export default function ShieldPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold font-mono text-white">
-              {stats.totalPremiumPaid.toLocaleString()} {APP_CONFIG.currency}
+              {formatCurrency(totalPremiumPaid, APP_CONFIG.currency as any)}
             </div>
           </CardContent>
         </Card>
@@ -130,7 +146,7 @@ export default function ShieldPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold font-mono text-success">
-              {stats.claimsPaid.toLocaleString()} {APP_CONFIG.currency}
+              {formatCurrency(0, APP_CONFIG.currency as any)}
             </div>
           </CardContent>
         </Card>
@@ -189,69 +205,160 @@ export default function ShieldPage() {
           Vos Positions
         </h2>
         <div className="grid gap-4">
-          {mockPositions.map((pos, i) => (
-            <motion.div
-              key={pos.id}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-            >
-              <Card
-                className={`glass-panel transition-colors ${pos.shielded ? "border-info/30" : "hover:border-gold/30"}`}
-              >
-                <CardContent className="p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div
-                      className={`h-12 w-12 rounded-full flex items-center justify-center ${pos.shielded ? "bg-info/10" : "bg-surface-3"}`}
-                    >
-                      {pos.shielded ? (
-                        <ShieldCheck className="h-6 w-6 text-info" />
-                      ) : (
-                        <ShieldAlert className="h-6 w-6 text-muted-foreground" />
-                      )}
-                    </div>
-                    <div>
-                      <p className="font-semibold text-white">{pos.teams}</p>
-                      <p className="text-sm text-muted-foreground font-mono">
-                        Mise: {pos.stake.toLocaleString()} {APP_CONFIG.currency}{" "}
-                        • Cote: {pos.odds}x
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4">
-                    {pos.shielded ? (
-                      <div className="text-right">
-                        <Badge className="bg-info/20 text-info border-info/30 mb-1">
-                          Protégé {pos.coveragePct}%
-                        </Badge>
-                        <p className="text-xs text-muted-foreground font-mono">
-                          Prime payée: {pos.premiumPaid?.toLocaleString()}{" "}
-                          {APP_CONFIG.currency}
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-3">
-                        <div className="text-right">
-                          <p className="text-xs text-muted-foreground">
-                            Prime estimée
-                          </p>
-                          <p className="font-mono text-sm font-bold text-gold">
-                            {pos.premiumEstimate?.toLocaleString()}{" "}
-                            {APP_CONFIG.currency}
-                          </p>
+          {isLoading ? (
+            <Card className="glass-panel">
+              <CardContent className="p-6 text-sm text-muted-foreground">
+                Chargement des positions...
+              </CardContent>
+            </Card>
+          ) : positions.length === 0 ? (
+            <Card className="glass-panel">
+              <CardContent className="p-6 text-sm text-muted-foreground">
+                Aucune position active à protéger.
+              </CardContent>
+            </Card>
+          ) : (
+            positions.map((pos, i) => {
+              const contract = contractsByPositionId.get(pos.id);
+              const isShielded = Boolean(contract);
+              const isActive = pos.status === "active";
+              const isQuoteTarget = quotePositionId === pos.id;
+              const quote = isQuoteTarget ? quoteData?.data : null;
+              const coveragePct = toNumber(
+                contract?.coverage_pct ?? contract?.coveragePct ?? 0,
+              );
+              const premiumPaid = toNumber(
+                contract?.premium_paid ?? contract?.premiumPaid ?? 0,
+              );
+              return (
+                <motion.div
+                  key={pos.id}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                >
+                  <Card
+                    className={`glass-panel transition-colors ${isShielded ? "border-info/30" : "hover:border-gold/30"}`}
+                  >
+                    <CardContent className="p-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+                      <div className="flex items-center gap-4">
+                        <div
+                          className={`h-12 w-12 rounded-full flex items-center justify-center ${isShielded ? "bg-info/10" : "bg-surface-3"}`}
+                        >
+                          {isShielded ? (
+                            <ShieldCheck className="h-6 w-6 text-info" />
+                          ) : (
+                            <ShieldAlert className="h-6 w-6 text-muted-foreground" />
+                          )}
                         </div>
-                        <Button variant="default" size="sm">
-                          <Shield className="mr-1 h-4 w-4" />
-                          Activer
-                        </Button>
+                        <div>
+                          <p className="font-semibold text-white">{pos.teams}</p>
+                          <p className="text-sm text-muted-foreground font-mono">
+                            Mise:{" "}
+                            {formatCurrency(
+                              pos.stake,
+                              APP_CONFIG.currency as any,
+                            )}{" "}
+                            · Cote: {pos.odds}x
+                          </p>
+                          <Badge
+                            variant="outline"
+                            className="mt-2 text-[10px] border-border text-muted-foreground"
+                          >
+                            {pos.status}
+                          </Badge>
+                        </div>
                       </div>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+
+                      <div className="flex items-center gap-4">
+                        {isShielded ? (
+                          <div className="text-right flex flex-col items-end gap-2">
+                            <Badge className="bg-info/20 text-info border-info/30">
+                              Protégé {coveragePct}%
+                            </Badge>
+                            <p className="text-xs text-muted-foreground font-mono">
+                              Prime payée:{" "}
+                              {formatCurrency(
+                                premiumPaid,
+                                APP_CONFIG.currency as any,
+                              )}
+                            </p>
+                            {String(contract?.status ?? "") === "active" && (
+                              <Button
+                                variant="secondary"
+                                size="sm"
+                                onClick={() =>
+                                  claimShield.mutate(String(contract?.id ?? ""))
+                                }
+                                disabled={claimShield.isPending}
+                              >
+                                {claimShield.isPending ? "Traitement..." : "Réclamer"}
+                              </Button>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                            <div className="text-right">
+                              <p className="text-xs text-muted-foreground">
+                                Prime estimée
+                              </p>
+                              <p className="font-mono text-sm font-bold text-gold">
+                                {quote
+                                  ? formatCurrency(
+                                      toNumber(quote.premium),
+                                      APP_CONFIG.currency as any,
+                                    )
+                                  : "--"}
+                              </p>
+                              {quote && (
+                                <p className="text-xs text-muted-foreground">
+                                  Couverture {quote.coverage_pct}% ·
+                                  Payout{" "}
+                                  {formatCurrency(
+                                    toNumber(quote.estimated_payout),
+                                    APP_CONFIG.currency as any,
+                                  )}
+                                </p>
+                              )}
+                            </div>
+                            <div className="flex flex-col gap-2">
+                              <Button
+                                variant="secondary"
+                                size="sm"
+                                onClick={() => setQuotePositionId(pos.id)}
+                                disabled={!isActive || (isQuoteTarget && isQuoteLoading)}
+                              >
+                                {isQuoteTarget && isQuoteLoading
+                                  ? "Calcul..."
+                                  : "Estimer"}
+                              </Button>
+                              <Button
+                                variant="default"
+                                size="sm"
+                                onClick={() => {
+                                  const coverage = quote?.coverage_pct ?? 70;
+                                  activateShield.mutate({
+                                    position_id: pos.id,
+                                    coverage_pct: coverage,
+                                  }, {
+                                    onSuccess: () => setQuotePositionId(null),
+                                  });
+                                }}
+                                disabled={!isActive || !quote || activateShield.isPending}
+                              >
+                                <Shield className="mr-1 h-4 w-4" />
+                                {activateShield.isPending ? "Activation..." : "Activer"}
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              );
+            })
+          )}
         </div>
       </div>
     </div>

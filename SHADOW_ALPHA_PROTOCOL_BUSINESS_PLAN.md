@@ -1,4 +1,4 @@
-# THE SHADOW ALPHA PROTOCOL
+﻿# THE SHADOW ALPHA PROTOCOL
 
 ## Africa's First Veblen-Driven Secondary Market, Quantitative Yield Engine & Cyclical Micro-Finance Ecosystem
 
@@ -707,7 +707,7 @@ ORGANIC (5% of acquisition):
 │  → Public rankings of top traders                    │
 │  → Monthly payouts for top performers                │
 │  → Tier badges: Bronze → Silver → Gold → Diamond    │
-│  → "STAKEX Ambassador" program                       │
+│  → "Shadow Alpha Ambassador" program                       │
 │  → Users share wins → content → new users            │
 └─────────────────────────────────────────────────────┘
 ```
@@ -979,3 +979,4 @@ SAP Holdings Ltd (UAE — Dubai/ADGM)
 ---
 
 *© 2026 Shadow Alpha Protocol Holdings Ltd. Confidential.*
+

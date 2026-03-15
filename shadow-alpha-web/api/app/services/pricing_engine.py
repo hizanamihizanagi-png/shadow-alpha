@@ -1,5 +1,5 @@
-"""
-Pricing Engine Service — wraps shadow-alpha-quant for async DB context.
+﻿"""
+Pricing Engine Service - wraps shadow-alpha-quant for async DB context.
 All monetary returns as Decimal with banker's rounding.
 """
 
@@ -116,3 +116,4 @@ class PricingEngineService:
     def odds_to_implied_prob(odds: float) -> float:
         """Convert decimal odds to implied probability."""
         return 1.0 / odds if odds > 0 else 0.0
+

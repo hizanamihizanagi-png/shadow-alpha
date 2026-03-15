@@ -1,5 +1,5 @@
-"""
-Shield Engine — insurance pricing, activation, and claims processing.
+﻿"""
+Shield Engine - insurance pricing, activation, and claims processing.
 """
 
 from __future__ import annotations
@@ -36,7 +36,7 @@ class ShieldEngineService:
     ) -> dict:
         """Calculate insurance premium using actuarial pricing.
 
-        premium = stake × loss_prob × coverage% × profit_margin
+        premium = stake x loss_prob x coverage% x profit_margin
         Clamped between 2-5% of stake.
         """
         actuarial_price = float(stake) * loss_probability * float(coverage_pct) / 100.0
@@ -156,3 +156,4 @@ class ShieldEngineService:
         contract.status = ShieldStatus.CLAIMED
         await db.flush()
         return claim
+

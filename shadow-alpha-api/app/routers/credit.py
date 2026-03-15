@@ -1,5 +1,5 @@
-"""
-Credit Router — credit score, loan application, repayment.
+﻿"""
+Credit Router - credit score, loan application, repayment.
 """
 
 from __future__ import annotations
@@ -93,3 +93,4 @@ async def repay_loan(
     loan.repaid_at = datetime.now(timezone.utc)
     await db.flush()
     return {"message": "Loan repaid successfully", "loan_id": str(loan.id)}
+

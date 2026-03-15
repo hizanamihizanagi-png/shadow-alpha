@@ -1,5 +1,5 @@
-"""
-Loan model and schemas — micro-credit for informal traders.
+﻿"""
+Loan model and schemas - micro-credit for informal traders.
 """
 
 from __future__ import annotations
@@ -60,3 +60,4 @@ class LoanOut(BaseModel):
 class LoanRepay(BaseModel):
     loan_id: uuid.UUID
     amount: Decimal = Field(..., gt=Decimal("0"))
+

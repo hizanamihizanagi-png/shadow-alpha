@@ -1,4 +1,4 @@
-"""Database package — re-exports for convenience."""
+﻿"""Database package - re-exports for convenience."""
 
 from app.db.base import Base, GUID, TimestampMixin, UUIDPrimaryKeyMixin
 from app.db.session import async_session_factory, engine, get_db, create_all_tables
@@ -13,3 +13,4 @@ __all__ = [
     "get_db",
     "create_all_tables",
 ]
+

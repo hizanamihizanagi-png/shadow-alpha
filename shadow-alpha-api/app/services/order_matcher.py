@@ -1,5 +1,5 @@
-"""
-Order Matcher — price-time priority matching engine for the P2P exchange.
+﻿"""
+Order Matcher - price-time priority matching engine for the P2P exchange.
 """
 
 from __future__ import annotations
@@ -210,3 +210,4 @@ class OrderMatcherService:
             "bids": [{"price": str(o.price), "id": str(o.id)} for o in bids_result.scalars().all()],
             "asks": [{"price": str(o.price), "id": str(o.id)} for o in asks_result.scalars().all()],
         }
+

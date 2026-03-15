@@ -1,5 +1,5 @@
-"""
-ShadowAlpha API — main application entry point.
+﻿"""
+ShadowAlpha API - main application entry point.
 
 SHADOW CORE: the invisible infrastructure that makes ShadowAlpha elite.
 """
@@ -31,7 +31,7 @@ async def lifespan(app: FastAPI):
         await create_all_tables()
         logger.info("shadow_core.sqlite_tables_created")
     else:
-        # PostgreSQL — verify connectivity
+        # PostgreSQL - verify connectivity
         import sqlalchemy
         async with engine.begin() as conn:
             await conn.execute(sqlalchemy.text("SELECT 1"))
@@ -74,7 +74,7 @@ app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
     description=(
-        "ShadowAlpha — Elite Quantitative Trading Platform API. "
+        "ShadowAlpha - Elite Quantitative Trading Platform API. "
         "Positions, P2P Exchange, Tontine, Credit, Vault, Shield Insurance, and more."
     ),
     docs_url="/docs",
@@ -95,7 +95,7 @@ app.add_middleware(
 # ── Health ────────────────────────────────────────────────────────────────
 @app.get("/health", tags=["system"])
 async def health_check():
-    """System health check — verifies DB and Redis are reachable."""
+    """System health check - verifies DB and Redis are reachable."""
     import sqlalchemy
 
     db_status = "connected"
@@ -145,3 +145,4 @@ app.include_router(position_loans.router, prefix="/loans", tags=["loans"])
 app.include_router(subscription.router, prefix="/subscription", tags=["subscription"])
 app.include_router(admin.router, prefix="/admin", tags=["admin"])
 app.include_router(public_api.router, prefix="/v1", tags=["public-api"])
+

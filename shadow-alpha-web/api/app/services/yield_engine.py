@@ -1,5 +1,5 @@
-"""
-Yield Engine — calculate and distribute yields for tontine groups.
+﻿"""
+Yield Engine - calculate and distribute yields for tontine groups.
 """
 
 from __future__ import annotations
@@ -46,3 +46,4 @@ class YieldEngineService:
             "performance_fee": fee,
             "net_yield": net,
         }
+

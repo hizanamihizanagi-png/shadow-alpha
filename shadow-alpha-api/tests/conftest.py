@@ -1,5 +1,5 @@
-"""
-Test configuration — async test fixtures using SQLite in-memory.
+﻿"""
+Test configuration - async test fixtures using SQLite in-memory.
 """
 
 from __future__ import annotations
@@ -129,3 +129,4 @@ async def admin_headers(admin_user) -> dict:
     """Return Authorization headers for admin."""
     token = create_access_token(admin_user.id)
     return {"Authorization": f"Bearer {token}"}
+

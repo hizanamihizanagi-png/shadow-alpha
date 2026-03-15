@@ -5,7 +5,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,51 +17,15 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { APP_CONFIG } from "@/lib/constants";
-
-const mockTransactions = [
-  {
-    id: "1",
-    type: "payout",
-    title: "Tontine Payout (Alpha Syndicate)",
-    amount: 500000,
-    date: new Date(),
-    status: "completed",
-  },
-  {
-    id: "2",
-    type: "trade_win",
-    title: "P2P Win: Real Madrid > Barca",
-    amount: 15000,
-    date: new Date(Date.now() - 86400000),
-    status: "completed",
-  },
-  {
-    id: "3",
-    type: "contribution",
-    title: "Tontine Contribution (Beta Series)",
-    amount: -50000,
-    date: new Date(Date.now() - 172800000),
-    status: "completed",
-  },
-  {
-    id: "4",
-    type: "trade_loss",
-    title: "P2P Loss: Under 2.5 Goals",
-    amount: -10000,
-    date: new Date(Date.now() - 259200000),
-    status: "completed",
-  },
-  {
-    id: "5",
-    type: "deposit",
-    title: "Fiat Deposit (Mobile Money)",
-    amount: 100000,
-    date: new Date(Date.now() - 432000000),
-    status: "completed",
-  },
-];
+import { usePortfolioHistory } from "@/hooks/use-portfolio-history";
 
 export default function HistoryPage() {
+  const { data: historyData, isLoading, isError } = usePortfolioHistory();
+  const positions = historyData?.data?.positions ?? [];
+
+  if (isError) {
+    return <div className="p-8 text-danger">Error loading history</div>;
+  }
 
   const getIcon = (type: string) => {
     switch (type) {
@@ -93,6 +56,31 @@ export default function HistoryPage() {
         return "bg-surface-3";
     }
   };
+
+  const items = positions.map((pos) => {
+    const status = pos.status;
+    const type =
+      status === "won"
+        ? "trade_win"
+        : status === "lost"
+          ? "trade_loss"
+          : "cashout";
+    const title =
+      status === "won"
+        ? `P2P Win: ${pos.teams}`
+        : status === "lost"
+          ? `P2P Loss: ${pos.teams}`
+          : `Cashout: ${pos.teams}`;
+    const date = pos.updatedAt ?? pos.createdAt ?? new Date().toISOString();
+    return {
+      id: pos.id,
+      type,
+      title,
+      amount: pos.pnl,
+      date,
+      status: status ?? "completed",
+    };
+  });
 
   return (
     <div className="flex flex-col gap-6 pb-10">
@@ -133,47 +121,61 @@ export default function HistoryPage() {
           </div>
         </CardHeader>
         <CardContent className="p-0">
-          <div className="divide-y divide-border/50">
-            {mockTransactions.map((tx) => (
-              <div
-                key={tx.id}
-                className="flex items-center justify-between p-4 sm:p-6 hover:bg-surface-2/30 transition-colors"
-              >
-                <div className="flex items-center gap-4">
-                  <div
-                    className={`h-10 w-10 sm:h-12 sm:w-12 rounded-full flex items-center justify-center shrink-0 ${getBg(tx.type)}`}
-                  >
-                    {getIcon(tx.type)}
+          {isLoading ? (
+            <div className="p-6 text-sm text-muted-foreground">
+              Chargement de l&apos;historique...
+            </div>
+          ) : items.length === 0 ? (
+            <div className="p-6 text-sm text-muted-foreground">
+              Aucun historique disponible pour le moment.
+            </div>
+          ) : (
+            <div className="divide-y divide-border/50">
+              {items.map((tx) => (
+                <div
+                  key={tx.id}
+                  className="flex items-center justify-between p-4 sm:p-6 hover:bg-surface-2/30 transition-colors"
+                >
+                  <div className="flex items-center gap-4">
+                    <div
+                      className={`h-10 w-10 sm:h-12 sm:w-12 rounded-full flex items-center justify-center shrink-0 ${getBg(tx.type)}`}
+                    >
+                      {getIcon(tx.type)}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-white text-sm sm:text-base">
+                        {tx.title}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {formatDate(tx.date, "MMM dd, yyyy • HH:mm", "en")}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-semibold text-white text-sm sm:text-base">
-                      {tx.title}
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {formatDate(
-                        tx.date.toISOString(),
-                        "MMM dd, yyyy • HH:mm",
+                  <div className="text-right">
+                    <p
+                      className={`font-mono font-bold text-sm sm:text-base ${tx.amount > 0 ? "text-success" : "text-foreground"}`}
+                    >
+                      {tx.amount > 0 ? "+" : ""}
+                      {formatCurrency(
+                        tx.amount,
+                        APP_CONFIG.currency as "USD" | "EUR" | "XAF",
                       )}
                     </p>
+                    <Badge
+                      variant="outline"
+                      className={`mt-1 text-[10px] sm:text-xs px-2 ${
+                        tx.amount >= 0
+                          ? "border-success/30 text-success"
+                          : "border-danger/30 text-danger"
+                      }`}
+                    >
+                      {tx.status}
+                    </Badge>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p
-                    className={`font-mono font-bold text-sm sm:text-base ${tx.amount > 0 ? "text-success" : "text-foreground"}`}
-                  >
-                    {tx.amount > 0 ? "+" : ""}
-                    {formatCurrency(tx.amount, APP_CONFIG.currency as "USD" | "EUR" | "XAF")}
-                  </p>
-                  <Badge
-                    variant="outline"
-                    className="mt-1 text-[10px] sm:text-xs px-2 border-success/30 text-success"
-                  >
-                    {tx.status}
-                  </Badge>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           <div className="p-4 border-t border-border flex justify-center">
             <Button

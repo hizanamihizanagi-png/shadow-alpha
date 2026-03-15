@@ -1,0 +1,8 @@
+{
+  "venvPath": "c:/Users/DELL/Desktop/anti-hero",
+  "venv": "shadow-alpha-api/.venv",
+  "extraPaths": [
+    "c:/Users/DELL/Desktop/anti-hero/shadow-alpha-api",
+    "c:/Users/DELL/Desktop/anti-hero/shadow-alpha-quant"
+  ]
+}

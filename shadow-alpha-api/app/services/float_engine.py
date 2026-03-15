@@ -1,5 +1,5 @@
-"""
-Float Engine — deploy idle platform capital to yield protocols.
+﻿"""
+Float Engine - deploy idle platform capital to yield protocols.
 STUB: Does not call real external APIs. Computes locally.
 """
 
@@ -14,7 +14,7 @@ logger = structlog.get_logger()
 
 
 class FloatEngineService:
-    """Manages Shadow Float — aggregating and deploying idle capital."""
+    """Manages Shadow Float - aggregating and deploying idle capital."""
 
     DEPLOYMENT_APY = Decimal("6.50")  # Conservative T-Bill yield
     LIQUIDITY_BUFFER_PCT = Decimal("20.00")  # Always keep 20% liquid
@@ -54,3 +54,4 @@ class FloatEngineService:
             "interest_accrued": interest,
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
+

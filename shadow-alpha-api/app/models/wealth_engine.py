@@ -1,5 +1,5 @@
-"""
-Wealth Engine models — Float Deployments, Prop Fund Trades, Instant Cashouts,
+﻿"""
+Wealth Engine models - Float Deployments, Prop Fund Trades, Instant Cashouts,
 User Classifications, API Keys, Promo Codes, Oracle Queries, and Revenue Ledger.
 
 These tables power the Shadow Wealth Engine (10 revenue mechanisms).
@@ -21,7 +21,7 @@ from app.db.base import Base, GUID, TimestampMixin, UUIDPrimaryKeyMixin
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# FLOAT DEPLOYMENTS (Mécanisme 1 — Shadow Float)
+# FLOAT DEPLOYMENTS (Mécanisme 1 - Shadow Float)
 # ═══════════════════════════════════════════════════════════════════════════
 
 class FloatDeployment(Base, UUIDPrimaryKeyMixin, TimestampMixin):
@@ -49,7 +49,7 @@ class FloatDeploymentOut(BaseModel):
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# PROP FUND TRADES (Mécanisme 2 — Anti-Portfolio)
+# PROP FUND TRADES (Mécanisme 2 - Anti-Portfolio)
 # ═══════════════════════════════════════════════════════════════════════════
 
 class PropFundDirection(str, enum.Enum):
@@ -85,7 +85,7 @@ class PropFundTradeOut(BaseModel):
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# INSTANT CASHOUTS (Mécanisme 3 — Market Making)
+# INSTANT CASHOUTS (Mécanisme 3 - Market Making)
 # ═══════════════════════════════════════════════════════════════════════════
 
 class InstantCashoutStatus(str, enum.Enum):
@@ -163,7 +163,7 @@ class UserClassificationOut(BaseModel):
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# API KEYS (Public API — "OpenAI for Betting")
+# API KEYS (Public API - "OpenAI for Betting")
 # ═══════════════════════════════════════════════════════════════════════════
 
 class APIKeyTier(str, enum.Enum):
@@ -206,9 +206,9 @@ class APIKeyOut(BaseModel):
 
 
 class APIKeyCreated(BaseModel):
-    """Returned only on creation — full key shown once."""
+    """Returned only on creation - full key shown once."""
     id: uuid.UUID
-    key: str  # Full key (sap_live_xxxx...) — only shown once
+    key: str  # Full key (sap_live_xxxx...) - only shown once
     name: str
     tier: APIKeyTier
 
@@ -247,7 +247,7 @@ class Referral(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# ORACLE QUERIES (Mécanisme 4 — Shadow Oracle B2B)
+# ORACLE QUERIES (Mécanisme 4 - Shadow Oracle B2B)
 # ═══════════════════════════════════════════════════════════════════════════
 
 class OracleQuery(Base, UUIDPrimaryKeyMixin, TimestampMixin):
@@ -305,3 +305,4 @@ class RevenueStreamSummary(BaseModel):
     mechanism: RevenueMechanism
     total_amount: Decimal
     count: int
+

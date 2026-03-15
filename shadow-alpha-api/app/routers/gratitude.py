@@ -1,5 +1,5 @@
-"""
-Gratitude Router — tips and supporter leaderboard.
+﻿"""
+Gratitude Router - tips and supporter leaderboard.
 Uses GratitudeService for revenue ledger integration.
 """
 
@@ -50,3 +50,4 @@ async def get_my_tips(
     """Get your tip history."""
     tips = await GratitudeService.get_user_tips(db, current_user.id)
     return [GratitudeTipOut.model_validate(t) for t in tips]
+

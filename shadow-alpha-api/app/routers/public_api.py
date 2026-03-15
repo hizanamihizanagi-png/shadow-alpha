@@ -1,5 +1,5 @@
-"""
-Public API Router — external API endpoints ("OpenAI for Betting Analytics").
+﻿"""
+Public API Router - external API endpoints ("OpenAI for Betting Analytics").
 """
 
 from __future__ import annotations
@@ -42,7 +42,7 @@ class KellyRequest(BaseModel):
 # ── Endpoints ─────────────────────────────────────────────────────────────
 @router.post("/positions/evaluate")
 async def evaluate_position(payload: PositionEvalRequest) -> dict:
-    """Evaluate a bet position — fair value, EV, and Kelly fraction."""
+    """Evaluate a bet position - fair value, EV, and Kelly fraction."""
     implied_prob = PricingEngineService.odds_to_implied_prob(payload.odds)
     max_payout = Decimal(str(payload.stake * payload.odds))
     sigma = PricingEngineService.get_sigma("football")
@@ -147,3 +147,4 @@ async def get_live_price(
         "sigma": sigma,
         "time_remaining": time_remaining,
     }
+

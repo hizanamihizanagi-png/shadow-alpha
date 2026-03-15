@@ -1,5 +1,5 @@
-"""
-Market Maker — AMM + Instant Cashout functionality.
+﻿"""
+Market Maker - AMM + Instant Cashout functionality.
 """
 
 from __future__ import annotations
@@ -26,17 +26,17 @@ class MarketMakerService:
     ) -> Decimal:
         """Calculate optimal spread based on market conditions.
 
-        Higher liquidity → tighter spread. Higher vol / less time → wider spread.
+        Higher liquidity -> tighter spread. Higher vol / less time -> wider spread.
         """
         base = float(cls.DEFAULT_SPREAD_PCT)
 
-        # Liquidity factor: more liquidity → tighter spread
+        # Liquidity factor: more liquidity -> tighter spread
         liquidity_adj = (1.0 - liquidity_score) * 2.0
 
         # Volatility factor
         vol_adj = (volatility - 0.30) * 5.0
 
-        # Time factor: less time → wider spread
+        # Time factor: less time -> wider spread
         time_adj = (1.0 - time_to_event) * 1.5
 
         spread = base + liquidity_adj + vol_adj + time_adj
@@ -87,3 +87,4 @@ class MarketMakerService:
             "pnl": pnl,
             "pnl_pct": (pnl / stake * Decimal("100")).quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN) if stake > 0 else Decimal("0.00"),
         }
+

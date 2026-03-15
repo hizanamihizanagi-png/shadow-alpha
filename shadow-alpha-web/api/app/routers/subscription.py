@@ -1,5 +1,5 @@
-"""
-Subscription Router — plan management, upgrade, and billing.
+﻿"""
+Subscription Router - plan management, upgrade, and billing.
 """
 
 from __future__ import annotations
@@ -26,7 +26,7 @@ from app.services.revenue_ledger import RevenueLedgerService
 
 router = APIRouter()
 
-# Plan pricing (FCFA/month) — match actual SubscriptionTier enum
+# Plan pricing (FCFA/month) - match actual SubscriptionTier enum
 PLAN_PRICING = {
     SubscriptionTier.FREE: 0,
     SubscriptionTier.ALPHA: 2500,
@@ -178,3 +178,4 @@ async def cancel_subscription(
     current_user.subscription_tier = SubscriptionTier.FREE
     await db.flush()
     return {"message": "Subscription cancelled, reverted to Free tier"}
+

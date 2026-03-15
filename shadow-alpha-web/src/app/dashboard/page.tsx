@@ -23,14 +23,34 @@ import { Badge } from "@/components/ui/badge";
 import { PortfolioChart } from "@/components/charts/portfolio-chart";
 import { TontineProgress } from "@/components/charts/tontine-progress";
 import { usePortfolio } from "@/hooks/use-portfolio";
+import { usePositions } from "@/hooks/use-positions";
 import { formatCurrency, formatPnl } from "@/lib/utils";
-import { APP_CONFIG, COPY } from "@/lib/constants";
+import { APP_CONFIG } from "@/lib/constants";
 
 export default function DashboardPage() {
   const { data: portfolio, isLoading, isError } = usePortfolio();
+  const { data: positionsData, isLoading: isPositionsLoading } = usePositions();
+  const recentPositions = positionsData?.data?.slice(0, 3) ?? [];
 
   if (isError) {
-    return <div className="p-8 text-danger">Error loading dashboard</div>;
+    return (
+      <div className="p-8 flex flex-col items-center justify-center gap-4">
+        <Wallet className="h-12 w-12 text-gold" />
+        <h2 className="text-xl font-display font-bold text-white">Welcome to Shadow Alpha</h2>
+        <p className="text-sm text-muted-foreground text-center max-w-md">
+          Your portfolio is empty. Head to the Exchange to create your first position,
+          or deposit funds into the Shadow Vault to start growing your capital.
+        </p>
+        <div className="flex gap-3">
+          <Button onClick={() => window.location.href = "/exchange"}>
+            <AreaChart className="mr-2 h-4 w-4" /> Go to Exchange
+          </Button>
+          <Button variant="secondary" onClick={() => window.location.href = "/vault"}>
+            <Wallet className="mr-2 h-4 w-4" /> Open Vault
+          </Button>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -110,12 +130,15 @@ export default function DashboardPage() {
               {isLoading ? (
                 <div className="h-8 w-24 animate-pulse bg-surface-3 rounded" />
               ) : (
-                portfolio?.data?.positions.length || 0
+                portfolio?.data?.positionCount || 0
               )}{" "}
               Active
             </div>
             <p className="mt-1 flex items-center text-xs text-muted-foreground">
-              <span className="text-success-foreground mr-1">60%</span> Win Rate
+              <span className="text-success-foreground mr-1">
+                {((portfolio?.data?.winRate ?? 0) * 100).toFixed(1)}%
+              </span>{" "}
+              Win Rate
             </p>
           </CardContent>
         </Card>
@@ -229,57 +252,84 @@ export default function DashboardPage() {
         Recent Positions
       </h2>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {/* Mapping mock positions */}
-        {[1, 2, 3].map((i) => (
-          <Card
-            key={i}
-            className="glass-panel hover:border-gold/30 transition-colors cursor-pointer group"
-          >
-            <CardContent className="p-5">
-              <div className="flex justify-between items-start mb-4">
-                <div className="flex items-center gap-3">
-                  <div
-                    className={`h-10 w-10 rounded-full flex items-center justify-center ${i === 2 ? "bg-danger/10 text-danger" : "bg-success/10 text-success"}`}
-                  >
-                    {i === 2 ? (
-                      <ArrowDownRight className="h-5 w-5" />
-                    ) : (
-                      <ArrowUpRight className="h-5 w-5" />
-                    )}
-                  </div>
-                  <div>
-                    <p className="font-semibold text-sm text-white group-hover:text-gold transition-colors">
-                      Manchester U. vs Chelsea
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      Sports Market • {i === 2 ? "Short" : "Long"}
-                    </p>
-                  </div>
-                </div>
-                <Badge
-                  variant={i === 2 ? "secondary" : "default"}
-                  className="text-[10px] px-2"
-                >
-                  Settled
-                </Badge>
-              </div>
-              <div className="flex justify-between items-end">
-                <div>
-                  <p className="text-xs text-muted-foreground">Stake</p>
-                  <p className="font-mono text-sm">15,000 XAF</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-xs text-muted-foreground">PnL</p>
-                  <p
-                    className={`font-mono font-bold ${i === 2 ? "text-danger" : "text-success"}`}
-                  >
-                    {i === 2 ? "-" : "+"}4,500 XAF
-                  </p>
-                </div>
-              </div>
+        {isPositionsLoading ? (
+          <Card className="glass-panel md:col-span-2 lg:col-span-3">
+            <CardContent className="p-6 text-sm text-muted-foreground">
+              Chargement des positions...
             </CardContent>
           </Card>
-        ))}
+        ) : recentPositions.length === 0 ? (
+          <Card className="glass-panel md:col-span-2 lg:col-span-3">
+            <CardContent className="p-6 text-sm text-muted-foreground">
+              Aucune position récente pour le moment.
+            </CardContent>
+          </Card>
+        ) : (
+          recentPositions.map((pos) => {
+            const pnlValue =
+              pos.status === "won"
+                ? pos.maxPayout - pos.stake
+                : pos.status === "lost"
+                  ? -pos.stake
+                  : pos.currentValue - pos.stake;
+            const pnlPct = pos.stake > 0 ? (pnlValue / pos.stake) * 100 : 0;
+            const pnl = formatPnl(pnlValue, pnlPct);
+            const isPositive = pnlValue >= 0;
+            return (
+              <Card
+                key={pos.id}
+                className="glass-panel hover:border-gold/30 transition-colors cursor-pointer group"
+              >
+                <CardContent className="p-5">
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`h-10 w-10 rounded-full flex items-center justify-center ${isPositive ? "bg-success/10 text-success" : "bg-danger/10 text-danger"}`}
+                      >
+                        {isPositive ? (
+                          <ArrowUpRight className="h-5 w-5" />
+                        ) : (
+                          <ArrowDownRight className="h-5 w-5" />
+                        )}
+                      </div>
+                      <div>
+                        <p className="font-semibold text-sm text-white group-hover:text-gold transition-colors">
+                          {pos.teams}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          Sports Market • {pos.status}
+                        </p>
+                      </div>
+                    </div>
+                    <Badge
+                      variant={pos.status === "active" ? "default" : "secondary"}
+                      className="text-[10px] px-2"
+                    >
+                      {pos.status}
+                    </Badge>
+                  </div>
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <p className="text-xs text-muted-foreground">Stake</p>
+                      <p className="font-mono text-sm">
+                        {formatCurrency(
+                          pos.stake,
+                          APP_CONFIG.currency as any,
+                        )}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs text-muted-foreground">PnL</p>
+                      <p className={`font-mono font-bold ${pnl.colorClass}`}>
+                        {pnl.formatted}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })
+        )}
       </div>
     </div>
   );

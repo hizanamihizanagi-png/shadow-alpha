@@ -1,5 +1,5 @@
-"""
-User Classifier — Sharp/Square classification for the Anti-Portfolio.
+﻿"""
+User Classifier - Sharp/Square classification for the Anti-Portfolio.
 """
 
 from __future__ import annotations
@@ -89,3 +89,4 @@ class UserClassifierService:
             "settled_positions": settled,
             "actionable": confidence >= cls.HIGH_CONFIDENCE_THRESHOLD,
         }
+

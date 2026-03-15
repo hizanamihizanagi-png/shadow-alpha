@@ -1,4 +1,4 @@
-"""
+﻿"""
 Dixon-Coles Bivariate Poisson Match Model
 ===========================================
 Predicts football match scores using the Dixon & Coles (1997) model.
@@ -38,8 +38,8 @@ MAX_GOALS = 10
 @dataclass
 class TeamRatings:
     """Attack and defense strengths for a single team."""
-    attack: float = 1.0     # α — higher means more goals scored
-    defense: float = 1.0    # β — higher means more goals conceded
+    attack: float = 1.0     # α - higher means more goals scored
+    defense: float = 1.0    # β - higher means more goals conceded
 
     def __repr__(self) -> str:
         return f"TeamRatings(atk={self.attack:.3f}, def={self.defense:.3f})"
@@ -78,7 +78,7 @@ class MatchPrediction:
 
 
 # ---------------------------------------------------------------------------
-# τ (tau) correction — Dixon-Coles low-score adjustment
+# τ (tau) correction - Dixon-Coles low-score adjustment
 # ---------------------------------------------------------------------------
 
 def _tau(
@@ -132,9 +132,9 @@ def score_matrix(
     Parameters
     ----------
     lambda_home : float
-        Expected goals for home team (λ₁ = α_home × β_away × γ).
+        Expected goals for home team (λ₁ = α_home x β_away x γ).
     lambda_away : float
-        Expected goals for away team (λ₂ = α_away × β_home).
+        Expected goals for away team (λ₂ = α_away x β_home).
     rho : float
         Dixon-Coles correlation parameter.
     max_goals : int
@@ -165,7 +165,7 @@ def score_matrix(
 
 
 # ---------------------------------------------------------------------------
-# DixonColesModel — parameter estimation
+# DixonColesModel - parameter estimation
 # ---------------------------------------------------------------------------
 
 class DixonColesModel:
@@ -212,7 +212,7 @@ class DixonColesModel:
             Historical match results with recency in days.
         xi : float
             Time-decay parameter. Larger ξ = stronger recency bias.
-            Weight = exp(-ξ × days_ago).
+            Weight = exp(-ξ x days_ago).
 
         Returns
         -------
@@ -489,7 +489,7 @@ def bayesian_update_after_goal(
     prediction : MatchPrediction
         Previous prediction state.
     goal_for : str
-        "home" or "away" — who scored.
+        "home" or "away" - who scored.
     lambda_home_full, lambda_away_full : float
         Full-match expected goals (used to compute remaining λ).
     new_time_remaining : float
@@ -517,3 +517,4 @@ def bayesian_update_after_goal(
         lambda_away=lambda_away_full,
         rho=rho,
     )
+

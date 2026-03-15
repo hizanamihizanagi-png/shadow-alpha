@@ -1,5 +1,5 @@
-"""
-Prop Fund — Anti-Portfolio trading signals (stub).
+﻿"""
+Prop Fund - Anti-Portfolio trading signals (stub).
 Does NOT execute real trades. Generates signals only.
 """
 
@@ -18,7 +18,7 @@ logger = structlog.get_logger()
 
 
 class PropFundService:
-    """Anti-Portfolio prop trading — inverse Squares, copy Sharps."""
+    """Anti-Portfolio prop trading - inverse Squares, copy Sharps."""
 
     MAX_POSITION_SIZE = Decimal("100000.00")
     DRAWDOWN_LIMIT_PCT = Decimal("5.00")
@@ -31,8 +31,8 @@ class PropFundService:
     ) -> list[dict]:
         """Generate trading signals based on user classifications.
 
-        - Sharp users → copy their trades externally
-        - Square users → inverse their trades externally
+        - Sharp users -> copy their trades externally
+        - Square users -> inverse their trades externally
         """
         signals = []
         for uid in user_ids:
@@ -62,10 +62,11 @@ class PropFundService:
 
     @classmethod
     async def execute_trade(cls, signal: dict) -> dict:
-        """Execute a prop fund trade (STUB — logs only, no real execution)."""
+        """Execute a prop fund trade (STUB - logs only, no real execution)."""
         logger.info("prop_fund.trade_executed_stub", signal=signal)
         return {
             "status": "simulated",
             "signal": signal,
-            "message": "Prop fund trade execution is stubbed — no real external API calls",
+            "message": "Prop fund trade execution is stubbed - no real external API calls",
         }
+

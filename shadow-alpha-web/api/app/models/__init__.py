@@ -1,5 +1,5 @@
-"""
-Models package — imports all models so SQLAlchemy registers them with Base.metadata.
+﻿"""
+Models package - imports all models so SQLAlchemy registers them with Base.metadata.
 
 This is imported by session.create_all_tables() and alembic env.py to ensure
 all tables are discovered during migration generation and table creation.
@@ -58,3 +58,4 @@ __all__ = [
     "OracleQuery",
     "RevenueLedger",
 ]
+

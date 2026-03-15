@@ -1,4 +1,4 @@
-"""
+﻿"""
 Shared math utilities for the Shadow Alpha Quant Engine.
 ========================================================
 Conversion helpers, Poisson PMF, vig removal, and sport-specific constants.
@@ -100,7 +100,7 @@ def poisson_pmf_array(max_goals: int, lam: float) -> np.ndarray:
 # ---------------------------------------------------------------------------
 
 # Calibrated from historical score variance across major leagues.
-# These are initial estimates — should be refined with calibrate_sigma().
+# These are initial estimates - should be refined with calibrate_sigma().
 DEFAULT_SIGMA: dict[str, float] = {
     # Football (soccer)
     "EPL":          0.35,   # English Premier League
@@ -115,7 +115,7 @@ DEFAULT_SIGMA: dict[str, float] = {
     "CAMEROON_ELITE_ONE": 0.42,
     "NIGERIAN_NPFL":      0.44,
     "SA_PSL":             0.38,   # South Africa Premier Soccer League
-    # Other sports (placeholder — need calibration)
+    # Other sports (placeholder - need calibration)
     "NBA":          0.25,
     "NFL":          0.30,
     "NHL":          0.28,
@@ -137,3 +137,4 @@ def get_default_sigma(league: str) -> float:
 def clamp(value: float, lo: float, hi: float) -> float:
     """Clamp *value* to the range [lo, hi]."""
     return max(lo, min(hi, value))
+

@@ -1,5 +1,5 @@
-"""
-Vault Router — Shadow Vault deposits, withdrawals, and performance.
+﻿"""
+Vault Router - Shadow Vault deposits, withdrawals, and performance.
 """
 
 from __future__ import annotations
@@ -49,3 +49,4 @@ async def vault_performance(
     """Get vault performance and yield data."""
     data = await VaultEngineService.get_performance(db, current_user.id)
     return VaultPerformanceOut(**data)
+

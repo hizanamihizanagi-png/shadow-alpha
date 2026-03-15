@@ -1,5 +1,5 @@
-"""
-Revenue Ledger Service — centralized revenue tracking across all 10 mechanisms.
+﻿"""
+Revenue Ledger Service - centralized revenue tracking across all 10 mechanisms.
 
 Every fee, tip, spread, premium, or interest captured is logged here.
 This is the single source of truth for Shadow Alpha's revenue.
@@ -79,3 +79,4 @@ class RevenueLedgerService:
             .limit(limit)
         )
         return list(result.scalars().all())
+

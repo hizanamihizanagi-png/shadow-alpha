@@ -1,5 +1,5 @@
-"""
-Tontine Router — group management, membership, contributions.
+﻿"""
+Tontine Router - group management, membership, contributions.
 """
 
 from __future__ import annotations
@@ -86,3 +86,4 @@ async def get_ledger(
     """Get the contribution ledger for a tontine group."""
     ledger = await TontineEngineService.get_ledger(db, group_id)
     return [ContributionOut.model_validate(c) for c in ledger]
+

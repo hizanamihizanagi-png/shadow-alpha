@@ -1,5 +1,5 @@
-"""
-Portfolio Router — summary, P&L, history.
+﻿"""
+Portfolio Router - summary, P&L, history.
 """
 
 from __future__ import annotations
@@ -23,7 +23,7 @@ async def portfolio_summary(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> dict:
-    """Get portfolio summary — total value, position count, tier breakdown."""
+    """Get portfolio summary - total value, position count, tier breakdown."""
     positions = await db.execute(
         select(Position).where(Position.user_id == current_user.id)
     )
@@ -107,7 +107,10 @@ async def portfolio_history(
                 "max_payout": str(p.max_payout),
                 "status": p.status.value,
                 "pnl": str(p.max_payout - p.stake if p.status == PositionStatus.WON else -p.stake),
+                "created_at": p.created_at.isoformat(),
+                "updated_at": p.updated_at.isoformat(),
             }
             for p in positions
         ],
     }
+

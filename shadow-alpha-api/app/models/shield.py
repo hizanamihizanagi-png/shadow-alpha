@@ -1,5 +1,5 @@
-"""
-Shield Insurance model and schemas — position insurance contracts and claims.
+﻿"""
+Shield Insurance model and schemas - position insurance contracts and claims.
 """
 
 from __future__ import annotations
@@ -84,3 +84,4 @@ class ShieldClaimOut(BaseModel):
     claimed_at: datetime
 
     model_config = {"from_attributes": True}
+

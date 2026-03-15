@@ -25,13 +25,43 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      setUser({ id: "1", email, displayName: "Demo User", tier: "ALPHA", kycLevel: 2 });
-      setToken("demo-token-xyz");
+      // 1. Authenticate with backend
+      const { apiClient } = await import("@/lib/api-client");
+      const tokenResponse = await apiClient.post<any>("/auth/login", { 
+        email, 
+        password 
+      });
+      
+      // Backend returns raw dict: {"access_token": "...", "refresh_token": "..."}
+      const accessToken = (tokenResponse as any).access_token || (tokenResponse as any).data?.access_token;
+      
+      if (!accessToken) {
+        throw new Error("Invalid credentials");
+      }
+      
+      // 2. Set token in store (and localStorage)
+      setToken(accessToken);
+      
+      // 3. Short delay to ensure localStorage applies for next api call
+      await new Promise(resolve => setTimeout(resolve, 50));
+      
+      // 4. Fetch real user profile
+      const meResponse = await apiClient.get<any>("/auth/me");
+      const user = (meResponse as any).data || meResponse;
+      
+      // 5. Update user store
+      setUser({ 
+        id: user.id || "1", 
+        email: user.email, 
+        displayName: user.display_name || user.email.split("@")[0], 
+        tier: user.tier || "ALPHA", 
+        kycLevel: user.kyc_level || 0 
+      });
+      
       router.push(ROUTES.DASHBOARD);
     } catch (error) {
-      console.error(error);
+      console.error("Login failed:", error);
+      alert("Login failed. Please check your credentials.");
     } finally {
       setIsLoading(false);
     }
