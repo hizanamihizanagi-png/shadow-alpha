@@ -1,15 +1,9 @@
 {
-  "git": {
-    "ignore": "shadow-alpha-api/"
-  },
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/index.py"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+  "buildCommand": "npm run build",
+  "outputDirectory": "out",
+  "framework": null,
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/.*", "dest": "/index.html" }
   ]
 }
